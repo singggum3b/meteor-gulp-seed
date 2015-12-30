@@ -1,0 +1,88 @@
+.b-popup
+	position absolute
+	right 0
+	left 0
+	z-index 9999
+	display block
+	padding 10px
+	background-color white
+
+	.thumbnail.image
+		overflow hidden
+		border-radius $base-unit
+
+	.close
+		position absolute
+		top $base-unit
+		right $base-unit
+		z-index 9999
+		padding 0
+		width 25px
+		height 25px
+		border 0
+		text-align center
+		font-weight bold
+		line-height 16px
+		img
+			display none
+			width 100%
+
+		.button
+			padding 0
+			&:before,
+			&:after
+				position absolute
+				content ""
+				display inline-block
+				transition all 0.1s
+				cursor pointer
+				background-color gray
+			&:before
+				top 0
+				left 12px
+				width 1px
+				height 100%
+				transform rotate(45deg)
+			&:after
+				top 12px
+				left 0
+				height 1px
+				width 100%
+				transform rotate(-135deg)
+
+			.icon-wrapper
+				display none
+
+		.button.is-hover
+			&:before,
+			&:after
+				background-color black
+
+	.message
+		padding 1em 1.75em 1.5em 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

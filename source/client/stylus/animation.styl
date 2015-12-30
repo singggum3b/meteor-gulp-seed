@@ -1,0 +1,86 @@
+.radmenu-ani-enter,.radmenu-ani-appear
+	opacity 0
+	.item
+		transition all 0.5s
+		transform scale(0.01) rotate(180deg) skew(0) !important
+	.item-svg
+		transition all 0.5s
+		transform scale(0.01) rotate(180deg) !important
+		transform-origin 50% 50%
+
+	&.radmenu-ani-enter-active,&.radmenu-ani-appear-active
+		opacity 1
+		transform scale(1)
+		animation zoomIn 0.5s
+		.item
+			transform scale(1) rotate(180deg) skew(0) !important
+
+		.item-svg
+			transform scale(1) rotate(0deg) !important
+
+.radmenu-ani-leave
+	opacity 1
+	&.radmenu-ani-leave-active
+		opacity 0
+		animation-name zoomOut
+		animation-duration 0.8s
+
+.bag-chooser-ani-enter,.bag-chooser-ani-appear
+	opacity 0
+	&.bag-chooser-ani-enter-active,&.bag-chooser-ani-appear-active
+		opacity 1
+		animation-name fadeInUp
+		animation-duration 0.8s
+
+.bag-chooser-ani-leave
+	opacity 1
+	&.bag-chooser-ani-leave-active
+		opacity 0
+		animation-name fadeOutDown
+		animation-duration 0.8s
+
+.trigger-ani-enter,.trigger-ani-appear
+	opacity 0
+	&.trigger-ani-enter-active,&.trigger-ani-appear-active
+		opacity 1
+		animation-name fadeInDown
+		animation-duration 1s
+
+.trigger-ani-leave
+	opacity 1
+	&.trigger-ani-leave-active
+		opacity 0
+		animation-name fadeOutUp
+		animation-duration 1s
+
+
+.page-ani-enter,.page-ani-appear
+	opacity 0
+	&.page-ani-enter-active,&.page-ani-appear-active
+		opacity 1
+		animation-name fadeIn
+		animation-duration 1s
+
+.page-ani-leave
+	opacity 1
+	&.page-ani-leave-active
+		opacity 0
+		animation-name fadeOut
+		animation-duration 1s
+
+
+//================Component animation=====================
+.popup-animation-enter,.popup-animation-appear
+	opacity 0
+	transform translate3d(-50%,-100%,0) !important
+	&.popup-animation-enter-active,&.popup-animation-appear-active
+		transition all 0.8s ease
+		opacity 1
+		transform translate3d(-50%,-50%,0) !important
+
+.popup-animation-leave
+	opacity 1
+	&.popup-animation-leave-active
+		transition all 0.8s ease
+		opacity 0
+		transform translate3d(-50%,-100%,0) !important

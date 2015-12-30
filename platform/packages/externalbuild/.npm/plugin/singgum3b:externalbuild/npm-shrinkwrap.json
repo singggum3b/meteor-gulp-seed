@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "immutable": {
+      "version": "3.7.6"
+    },
+    "shelljs": {
+      "version": "0.5.3"
+    }
+  }
+}
