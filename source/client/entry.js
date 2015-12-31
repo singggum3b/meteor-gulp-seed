@@ -1,2 +1,2 @@
-require("./.css/style.css");
+require(".css/style.css");
 console.log("welcome ya");

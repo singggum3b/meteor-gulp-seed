@@ -20,7 +20,6 @@ var babelSettings = {
 		}]]
 };
 
-
 module.exports = {
 	devtool: "source-map",
 	output: {
@@ -42,10 +41,13 @@ module.exports = {
 	externals: {
 	},
 	module: {
+		preLoaders: [
+			{test: /\.css?$/, loader: 'source-map'}
+		],
 		loaders: [
 			{ test: /\.htm/, loader: "html" },
 			{ test: /\.js?$/, loader: "babel", query: babelSettings, exclude: /node_modules/ },
-			{ test: /\.css$/, loader: ExtractTextPlugin.extract("style?sourceMap", "css?sourceMap") },
+			{ test: /\.css$/, loader: ExtractTextPlugin.extract("style", "css?sourceMap") },
 			{ test: /\.(png|gif|jpe?g|ico)(\?.*)?$/, loader: "url?limit=8182" },
 			{ test: /\.(svg|ttf|woff|eot)(\?.*)?$/, loader: "file" }
 		],
