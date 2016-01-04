@@ -3,6 +3,7 @@
  */
 //================================================
 let I = Npm.require("immutable");
+let fs = Npm.require("fs");
 
 //================================================
 mdx = function Match(deviceName, map) {
@@ -11,8 +12,17 @@ mdx = function Match(deviceName, map) {
 };
 
 //=============UTILITY===================================
-function addFileLocal() {
-
+function addFileLocal(files,buildInfo) {
+	buildInfo.get("data").map(function (fileslist,type) {
+		mdx(type,{
+			"js": function () {
+				fileslist.map((f)=>files[0].addJavaScript({
+					path: f,
+					data: fs.readFileSync(buildInfo.getIn(["meta","URL"]) + f,"utf8")
+				}));
+			}
+		});
+	});
 }
 
 function addFileRemote(files,buildInfo) {
@@ -21,13 +31,13 @@ function addFileRemote(files,buildInfo) {
 			"css": function () {
 				fileslist.map((f)=>files[0].addHtml({
 					section: "head",
-					data: `<link rel="stylesheet" type="text/css" href=${buildInfo.getIn(["meta","location"]) + f} />`
+					data: `<link rel="stylesheet" type="text/css" href=${buildInfo.getIn(["meta","URL"]) + f} />`
 				}));
 			},
 			"js": function () {
 				fileslist.map((f)=>files[0].addHtml({
 					section: "head",
-					data: `<script src=${buildInfo.getIn(["meta","location"]) + f} type="text/javascript"></script>`
+					data: `<script src=${buildInfo.getIn(["meta","URL"]) + f} type="text/javascript"></script>`
 				}));
 			}
 		});
@@ -46,10 +56,10 @@ function processDevelopment(files,buildInfo) {
 		if (buildTarget == _architect) {
 			mdx(_architect,{
 				"web":()=> {
-					buildInfo.getIn(["meta","location"]) == "localfile" ? addFileLocal(files,buildInfo.get("data")) : addFileRemote(files,buildInfo);
+					buildInfo.getIn(["meta","location"]) == "localfile" ? addFileLocal(files,buildInfo) : addFileRemote(files,buildInfo);
 				},
 				"server": ()=>{
-
+					buildInfo.getIn(["meta","location"]) == "localfile" ? addFileLocal(files,buildInfo) : addFileRemote(files,buildInfo);
 				}
 			});
 		}

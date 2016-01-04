@@ -1,1 +1,1 @@
-{"development":{"web":{"meta":{"location":"http://192.168.1.12:8080/assets/"},"data":{"css":[],"js":["common-vendor.js","main.js"]}},"server":{"meta":{"location":"localfile"},"data":{"js":["/assets/server.js"]}}}}
+{"development":{"server":{"meta":{"location":"localfile","URL":"/home/singgum3b/Projects/meteor-gulp-seed/platform/.external-build/server/","timeStamp":1451904536145},"data":{"css":[],"js":["server.js"]}},"web":{"meta":{"location":"web","URL":"http://192.168.10.48:8081/assets/","timeStamp":0},"data":{"css":[],"js":["common-vendor.js","main.js"]}}}}

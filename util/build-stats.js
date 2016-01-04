@@ -21,7 +21,8 @@ module.exports = {
 					development: {
 						[settings.target]: {
 							settings: settings,
-							stat: buildStat
+							stat: buildStat,
+							timeStamp: settings.watch ? Date.now() : 0
 						}
 					}
 				}));
@@ -59,7 +60,9 @@ function digest() {
 			return modeInfo.map(function (targetInfo,target) {
 				return {
 					meta: {
-						location: targetInfo.getIn(["settings","location"])
+						location: targetInfo.getIn(["settings","location"]),
+						URL: targetInfo.getIn(["settings","URL"]),
+						timeStamp: targetInfo.getIn(["timeStamp"])
 					},
 					data: {
 						css: targetInfo.get("stat").filter(function (value, index) {
@@ -73,7 +76,7 @@ function digest() {
 			})
 		});
 
-		require('fs').writeFileSync('platform/external-test.json', JSON.stringify(outputBuildInfo));
+		require('fs').writeFileSync('platform/external-build.json', JSON.stringify(outputBuildInfo));
 	}
 
 }

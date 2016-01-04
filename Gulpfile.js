@@ -49,17 +49,20 @@ gulp.task("dev.webpack", ["dev.css"], function () {
 	util.buildStats.register(clientCompiler,Object.assign({},settings,{
 		mode: "development",
 		target: "web",
-		location: settings.dev.host + settings.dev.publicPrefix
+		location: "web",
+		URL: settings.dev.host + settings.dev.publicPrefix
 	}));
 
 	util.buildStats.register(serverCompiler,Object.assign({},settings,{
 		mode: "development",
+		watch: true,
 		target: "server",
-		location: "localfile"
+		location: "localfile",
+		URL: path.join(__dirname,serverCompiler.outputPath)
 	}));
 
-	serverCompiler.run(function (err,stat) {
-		console.log(err,stat);
+	serverCompiler.watch({},function (err,stat) {
+		//console.log(err,stat);
 	});
 
 	new WebpackDevServer(clientCompiler, {
@@ -68,7 +71,7 @@ gulp.task("dev.webpack", ["dev.css"], function () {
 		stats: {colors: true},
 		headers: {"Access-Control-Allow-Origin": "*"},
 		publicPath: settings.dev.publicPrefix
-	}).listen(8080, settings.dev.hostname, function (err) {
+	}).listen(settings.dev.port, settings.dev.hostname, function (err) {
 		if (err) {
 			console.log(gutil.colors.magenta.bold.inverse(err));
 			throw new gutil.PluginError("webpack-dev-server", err);

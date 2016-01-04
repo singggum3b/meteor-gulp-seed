@@ -11,7 +11,8 @@ module.exports ={
 	dev: {
 		hostname: ip.address(),
 		host: `http://${ip.address()}:8080`,
-		publicPrefix : "/assets/"
+		publicPrefix : "/assets/",
+		port: "8080"
 	},
 	prod: {
 
