@@ -17,7 +17,7 @@ function addFileLocal(files,buildInfo) {
 		mdx(type,{
 			"js": function () {
 				fileslist.map((f)=>files[0].addJavaScript({
-					path: f,
+					path: buildInfo.getIn(["meta","URL"]) + f,
 					data: fs.readFileSync(buildInfo.getIn(["meta","URL"]) + f,"utf8")
 				}));
 			}
