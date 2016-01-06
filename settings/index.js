@@ -9,12 +9,13 @@ module.exports ={
 		"ie >= 10"
 	],
 	dev: {
+		mode: "development",
 		hostname: ip.address(),
 		host: `http://${ip.address()}:8080`,
 		publicPrefix : "/assets/",
 		port: "8080"
 	},
 	prod: {
-
+		mode: "prod",
 	}
 };

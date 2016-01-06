@@ -16,10 +16,13 @@ function addFileLocal(files,buildInfo) {
 	buildInfo.get("data").map(function (fileslist,type) {
 		mdx(type,{
 			"js": function () {
-				fileslist.map((f)=>files[0].addJavaScript({
-					path: buildInfo.getIn(["meta","URL"]) + f,
-					data: fs.readFileSync(buildInfo.getIn(["meta","URL"]) + f,"utf8")
-				}));
+				fileslist.map((f)=>{
+					files[0].addJavaScript({
+						path: f,
+						data: fs.readFileSync(buildInfo.getIn(["meta","URL"]) + f,"utf8"),
+						sourceMap: JSON.parse(fs.readFileSync(buildInfo.getIn(["meta","URL"]) + f + ".map","utf8"))
+					})
+				});
 			}
 		});
 	});

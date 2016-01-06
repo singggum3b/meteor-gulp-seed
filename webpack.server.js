@@ -1,6 +1,8 @@
 /**
  * Created by singgum3b on 12/29/15.
  */
+"use strict";
+
 var webpack = require("webpack");
 var path = require("path");
 
@@ -9,14 +11,15 @@ var babelSettings = {
 };
 
 module.exports = function (settings) {
+	let mode = settings.mode;
 	return {
-		debug: true,
 		target: "node",
 		devtool: "source-map",
 		watch: true,
 		output: {
 			path: "./platform/.external-build/server/",
-			filename: "[name].js"
+			filename: "[name].js",
+			publicPath: "/"
 		},
 		entry: {
 			server: ["./source/server/entry"]
@@ -57,16 +60,11 @@ module.exports = function (settings) {
 			noParse: /\.min\.js/
 		},
 		plugins: [
-			new webpack.optimize.DedupePlugin()
-			/*{
-			 //Output stats
-			 apply: function(compiler) {
-			 compiler.plugin("after-emit", function(compilation, done) {
-			 var stats = compilation.getStats().toJson();
-			 require("fs").writeFile("webpack.stats.json", JSON.stringify(stats), done);
-			 });
-			 }
-			 }*/
+			new webpack.optimize.DedupePlugin(),
+			(mode == "development") && new webpack.BannerPlugin(
+					"Npm.require('source-map-support/register');\n",
+					{raw: true}
+			)
 		]
 	}
 };
