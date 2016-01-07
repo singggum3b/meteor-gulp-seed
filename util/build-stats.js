@@ -35,7 +35,7 @@ module.exports = {
 					development: {
 						[settings.target]: {
 							settings: settings,
-							stat: buildStat.filter(value=>value.get("chunkNames").size).map(value=>value.get("name")).toJS(),
+							stat: buildStat.filter(value=>value.get("chunkNames").size),
 							timeStamp: settings.watch ? Date.now() : 0
 						}
 					}
@@ -45,7 +45,7 @@ module.exports = {
 					production: {
 						[settings.target]: {
 							settings: settings,
-							stat: buildStat.map(value=>value.get("name")).toJS(),
+							stat: buildStat,
 							timeStamp: settings.watch ? Date.now() : 0
 						}
 					}
@@ -84,18 +84,19 @@ function digest() {
 					meta: {
 						location: targetInfo.getIn(["settings","location"]),
 						URL: targetInfo.getIn(["settings","URL"]),
-						timeStamp: targetInfo.getIn(["timeStamp"])
+						timeStamp: targetInfo.getIn(["timeStamp"]),
+						publicPath: targetInfo.getIn(["settings","publicPath"]) || ""
 					},
 					data: {
 						css: targetInfo.get("stat").filter(function (value, index) {
-							return /\.css$/.test(value);
-						}).toJS(),
+							return /\.css$/.test(value.get("name"));
+						}).map((value)=>value.get("name")).toJS(),
 						js:  targetInfo.get("stat").filter(function (value, index) {
-							return /\.js$/.test(value);
-						}).toJS(),
+							return (/\.js$/.test(value.get("name")) && value.get("chunkNames").size);
+						}).map((value)=>value.get("name")).toJS(),
 						assets: targetInfo.get("stat").filter(function (value, index) {
-							return !(/\.js$/.test(value) && /\.css$/.test(value));
-						}).toJS()
+							return !value.get("chunkNames").size;
+						}).map((value)=>value.get("name")).toJS()
 					}
 				}
 			})
