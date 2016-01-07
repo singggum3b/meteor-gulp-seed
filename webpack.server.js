@@ -14,12 +14,11 @@ module.exports = function (settings) {
 	let mode = settings.mode;
 	return {
 		target: "node",
-		devtool: "source-map",
+		//devtool: "source-map",
 		watch: true,
 		output: {
 			path: "./platform/.external-build/server/",
-			filename: "[name].js",
-			publicPath: "/"
+			filename: "[name].js"
 		},
 		entry: {
 			server: ["./source/server/entry"]
@@ -61,10 +60,9 @@ module.exports = function (settings) {
 		},
 		plugins: [
 			new webpack.optimize.DedupePlugin(),
-			(mode == "development") && new webpack.BannerPlugin(
-					"Npm.require('source-map-support/register');\n",
-					{raw: true}
-			)
+			new webpack.SourceMapDevToolPlugin(
+					'[file].map', null,
+					"[absolute-resource-path]", "[absolute-resource-path]")
 		]
 	}
 };

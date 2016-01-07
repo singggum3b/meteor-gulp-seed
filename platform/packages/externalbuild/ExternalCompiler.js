@@ -17,11 +17,15 @@ function addFileLocal(files,buildInfo) {
 		mdx(type,{
 			"js": function () {
 				fileslist.map((f)=>{
-					files[0].addJavaScript({
-						path: f,
-						data: fs.readFileSync(buildInfo.getIn(["meta","URL"]) + f,"utf8"),
-						sourceMap: JSON.parse(fs.readFileSync(buildInfo.getIn(["meta","URL"]) + f + ".map","utf8"))
-					})
+					try {
+						files[0].addJavaScript({
+							path: f,
+							data: fs.readFileSync(buildInfo.getIn(["meta", "URL"]) + f, "utf8"),
+							sourceMap: JSON.parse(fs.readFileSync(buildInfo.getIn(["meta", "URL"]) + f + ".map", "utf8"))
+						})
+					} catch (e) {
+						console.log("Localfile not found: " + buildInfo.getIn(["meta", "URL"]) +f );
+					}
 				});
 			}
 		});

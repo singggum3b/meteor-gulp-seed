@@ -1,6 +1,8 @@
 "use strict";
 
 var gulp = require("gulp"),
+		shell = require('gulp-shell'),
+		opn = require('opn'),
 		gutil = require("gulp-util"),
 		stylus = require("gulp-stylus"),
 		autoprefixer = require("autoprefixer"),
@@ -76,13 +78,32 @@ gulp.task("dev.webpack", ["dev.css"], function () {
 			console.log(gutil.colors.magenta.bold.inverse(err));
 			throw new gutil.PluginError("webpack-dev-server", err);
 		}
-
 		// Server listening
 		console.log(gutil.colors.magenta.bold.inverse(`[Webpack:] Build server started : ${settings.dev.host} \n`));
-
 		// keep the server alive or continue?
 		// callback();
 	});
 });
 
+//==============Build task===================================================
 gulp.task("dev", ["dev.css", "watch.css", "dev.webpack"]);
+
+
+//==============Debug task===================================================
+
+gulp.task("dev.meteor",shell.task(["cd platform && meteor"], {
+	env: {
+		NODE_OPTIONS: "--debug-brk",
+		ROOT_URL : `http://${settings.dev.hostname}:3000`
+	}
+}));
+
+gulp.task("dev.inspector",shell.task([`node-inspector -p 8088 --web-host ${settings.dev.hostname}`]));
+
+gulp.task("dev.openbrowser", function (cb) {
+	opn(`http://${settings.dev.hostname}:8088/?ws=${settings.dev.hostname}:8088&port=5858`);
+	opn(`http://${settings.dev.hostname}:3000`);
+	cb();
+});
+
+gulp.task("debug",["dev.meteor","dev.inspector","dev.openbrowser"]);
