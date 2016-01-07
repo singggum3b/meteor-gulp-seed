@@ -14,20 +14,42 @@ var updateQueue = I.List([]);
 module.exports = {
 	register: function (webpackCompiler, settings) {
 		return webpackCompiler.plugin('done', function (stats) {
-			var buildStat = I.fromJS(stats.toJson({chunks: true}).assetsByChunkName).toList().flatten(1).toJS();
+
+			let buildStat = I.fromJS(stats.toJson({
+				hash: false,
+				timings: false,
+				chunks: false,
+				chunkModules: false,
+				modules: false,
+				children: true,
+				version: true,
+				cached: false,
+				cachedAssets: false,
+				reasons: false,
+				source: false,
+				errorDetails: false
+			}).assets).filter(value=>value.get("emitted"));
 
 			if (settings.mode == "development") {
 				updateBuildInfo(I.fromJS({
 					development: {
 						[settings.target]: {
 							settings: settings,
-							stat: buildStat,
+							stat: buildStat.filter(value=>value.get("chunkNames").size).map(value=>value.get("name")).toJS(),
 							timeStamp: settings.watch ? Date.now() : 0
 						}
 					}
 				}));
-			} else {
-				externalBuildInfo.set("production");
+			} else if(settings.mode == "production") {
+				updateBuildInfo(I.fromJS({
+					production: {
+						[settings.target]: {
+							settings: settings,
+							stat: buildStat.map(value=>value.get("name")).toJS(),
+							timeStamp: settings.watch ? Date.now() : 0
+						}
+					}
+				}));
 			}
 
 		});
@@ -70,6 +92,9 @@ function digest() {
 						}).toJS(),
 						js:  targetInfo.get("stat").filter(function (value, index) {
 							return /\.js$/.test(value);
+						}).toJS(),
+						assets: targetInfo.get("stat").filter(function (value, index) {
+							return !(/\.js$/.test(value) && /\.css$/.test(value));
 						}).toJS()
 					}
 				}

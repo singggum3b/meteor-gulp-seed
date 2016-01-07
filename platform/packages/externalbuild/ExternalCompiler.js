@@ -4,6 +4,9 @@
 //================================================
 let I = Npm.require("immutable");
 let fs = Npm.require("fs");
+let colors = Npm.require("chalk");
+colors.enabled = true;
+
 
 //================================================
 mdx = function Match(deviceName, map) {
@@ -52,6 +55,24 @@ function addFileRemote(files,buildInfo) {
 }
 
 //=============PRODUCTION===================================
+function processProduction(files,buildInfo) {
+	let _production = I.fromJS(buildInfo.production);
+	let _architect = files[0].getArch();
+	_architect = _architect.indexOf("cordova") > -1 ? "cordova" : _architect.indexOf("web") > -1 ? "web" : "server";
+	_production.map(function (buildInfo,buildTarget) {
+		//console.log(buildTarget,_architect);
+		if (buildTarget == _architect) {
+			mdx(_architect,{
+				"web":()=> {
+					buildInfo.getIn(["meta","location"]) == "localfile" ? addFileLocal(files,buildInfo) : includeFileRemote(files,buildInfo);
+				},
+				"server": ()=>{
+					buildInfo.getIn(["meta","location"]) == "localfile" ? addFileLocal(files,buildInfo) : includeFileRemote(files,buildInfo);
+				}
+			});
+		}
+	});
+}
 
 //=============DEVELOPMENT===================================
 function processDevelopment(files,buildInfo) {
@@ -76,14 +97,20 @@ function processDevelopment(files,buildInfo) {
 //================================================
 ExternalCompiler = class ExternalCompiler {
 
+	constructor() {
+		this.runMode = I.fromJS(process.argv).filter((value)=>value.toLowerCase() == "--production").size >= 1  ? "production" : "development";
+	}
+
 	processFilesForTarget(files) {
 		if (files.length !== 1) throw new Error("You must have only 1 external-build.json file");
 		var buildInfo = JSON.parse(files[0].getContentsAsString());
 
-		if (!!buildInfo.development) {
+		if (this.runMode == "development" && buildInfo.development) {
 			processDevelopment(files,buildInfo);
-		} else if (buildInfo.production) {
-
+		} else if (this.runMode == "production" && buildInfo.production) {
+			processProduction(files,buildInfo);
+		} else {
+			throw new Error(colors.red.bold("Run mode & external-config.json data mismatch : Not found"));
 		}
 
 	}

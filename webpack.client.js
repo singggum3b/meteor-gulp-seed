@@ -1,37 +1,49 @@
+"use strict";
+
 var webpack = require("webpack"),
 		ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-var babelSettings = {
-	presets: ["react", "es2015", "stage-0"],
-	cacheDirectory: undefined,
-	plugins: [
-		"transform-decorators-legacy",
-		["react-transform", {
-			transforms: [{
-				transform: "react-transform-hmr",
-				imports: ["react"],
-				locals: ["module"]
-			}, {
-				transform: "react-transform-catch-errors",
-				imports: ["react", "redbox-react"]
-			}]
-			// redbox-react is breaking the line numbers :-(
-			// you might want to disable it
-		}]]
-};
-
 module.exports = function (settings) {
+
+	let isProd = (settings.mode == "production");
+
+	var babelSettings = isProd ?
+	{
+		presets: ["react", "es2015", "stage-0"],
+		plugins: [
+			"transform-decorators-legacy"
+		]
+	}
+			:
+	{
+		presets: ["react", "es2015", "stage-0"],
+		plugins: [
+			"transform-decorators-legacy",
+			["react-transform", {
+				transforms: [{
+					transform: "react-transform-hmr",
+					imports: ["react"],
+					locals: ["module"]
+				}, {
+					transform: "react-transform-catch-errors",
+					imports: ["react", "redbox-react"]
+				}]
+				// redbox-react is breaking the line numbers :-(
+				// you might want to disable it
+			}]]
+	};
+
 	return {
 		debug: false,
-		devtool: "source-map",
+		devtool: isProd ? false : "source-map",
 		output: {
-			path: "/memory/webpack",
+			path: isProd ? settings.buildFolder : "/memory/webpack",
 			publicPath: settings.host + settings.publicPrefix,
 			filename: "[name].js"
 		},
 		entry: {
-			main: ["./source/client/entry",`webpack-dev-server/client?${settings.host}`, "webpack/hot/dev-server"],
-			"common-vendor": ["jquery","react","react-router","react-canvas","history","nuclear-js"]
+			main: isProd ? ["./source/client/entry"] : ["./source/client/entry", `webpack-dev-server/client?${settings.host}`, "webpack/hot/dev-server"],
+			"common-vendor": ["jquery", "react", "react-router", "react-canvas", "history", "nuclear-js"]
 		},
 		resolve: {
 			// Tell webpack to look for required files in bower and node
@@ -40,18 +52,17 @@ module.exports = function (settings) {
 		resolveLoader: {
 			modulesDirectories: ["custom_modules", "node_modules"]
 		},
-		externals: {
-		},
+		externals: {},
 		module: {
 			preLoaders: [
 				{test: /\.css?$/, loader: 'source-map'}
 			],
 			loaders: [
-				{ test: /\.htm/, loader: "html" },
-				{ test: /\.js?$/, loader: "babel", query: babelSettings, exclude: /node_modules/ },
-				{ test: /\.css$/, loader: "style?sourceMap!css?sourceMap" },
-				{ test: /\.(png|gif|jpe?g|ico)(\?.*)?$/, loader: "url?limit=8182" },
-				{ test: /\.(svg|ttf|woff|eot)(\?.*)?$/, loader: "file" }
+				{test: /\.htm/, loader: "html"},
+				{test: /\.js?$/, loader: "babel", query: babelSettings, exclude: /node_modules/},
+				{test: /\.css$/, loader: "style?sourceMap!css?sourceMap"},
+				{test: /\.(png|gif|jpe?g|ico)(\?.*)?$/, loader: "url?limit=8182"},
+				{test: /\.(svg|ttf|woff|eot)(\?.*)?$/, loader: "file"}
 			],
 			postLoaders: [
 				{test: /linebreak/, loader: "transform?brfs"}
@@ -70,7 +81,8 @@ module.exports = function (settings) {
 				name: ["common-vendor"],
 				minChunks: Infinity
 			}),
-			new webpack.HotModuleReplacementPlugin()
+			!isProd ? new webpack.HotModuleReplacementPlugin() : ()=>null,
+			isProd ? new webpack.optimize.OccurenceOrderPlugin(true) : ()=>null
 			/*{
 			 //Output stats
 			 apply: function(compiler) {

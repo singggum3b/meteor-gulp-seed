@@ -1,4 +1,5 @@
 /source/client/.css
+/platform/packages/externalbuild/.npm
 /platform/.external-build
 # Created by .ignore support plugin (hsz.mobi)
 node_modules

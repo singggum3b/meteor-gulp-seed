@@ -16,6 +16,11 @@ module.exports ={
 		port: "8080"
 	},
 	prod: {
-		mode: "prod"
+		mode: "production",
+		buildFolder: "./platform/.external-build/",
+		hostname: ip.address(),
+		host: `http://${ip.address()}:8080`,
+		publicPrefix : "/assets/",
+		port: "8080"
 	}
 };

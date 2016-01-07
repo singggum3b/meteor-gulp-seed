@@ -7,6 +7,7 @@ var gulp = require("gulp"),
 		stylus = require("gulp-stylus"),
 		autoprefixer = require("autoprefixer"),
 		poststylus = require("poststylus"),
+		csswring = require("csswring"),
 		path = require("path"),
 		sourcemaps = require("gulp-sourcemaps"),
 		filter = require("gulp-filter"),
@@ -33,6 +34,22 @@ gulp.task("dev.css", function (cb) {
 	cb();
 });
 
+gulp.task("prod.css", function (cb) {
+	let sourceRoot = path.join(__dirname, "source/client/stylus");
+	gulp.src("./source/client/stylus/style.styl", {base: sourceRoot})
+			.pipe(stylus({
+				"include css": true,
+				paths: ["node_modules"],
+				filename: "style.styl",
+				use: [require("jeet")(), require("kouto-swiss")(), poststylus([autoprefixer({browsers: settings.browserSupports}),csswring({
+					map: false,
+					preserveHacks: true
+				})])]
+			}))
+			.pipe(gulp.dest("./source/client/.css"));
+	cb();
+});
+
 gulp.task("watch.css", ["dev.css"], function () {
 	gulp.watch("./source/client/stylus/**/*.styl", ["dev.css"])
 });
@@ -40,6 +57,7 @@ gulp.task("watch.css", ["dev.css"], function () {
 //==============Webpack===================================================
 
 gulp.task("dev.webpack", ["dev.css"], function () {
+
 	// Start a webpack-dev-server
 	let clientCompiler = webpack(require("./webpack.client.js")(settings.dev));
 	let serverCompiler = webpack(require("./webpack.server.js")(settings.dev));
@@ -85,14 +103,57 @@ gulp.task("dev.webpack", ["dev.css"], function () {
 	});
 });
 
+gulp.task("prod.webpack", ["prod.css"], function () {
+	// Start a webpack-dev-server
+	let clientCompiler = webpack(require("./webpack.client.js")(settings.prod));
+	let serverCompiler = webpack(require("./webpack.server.js")(settings.prod));
+
+	//Apply some fancy stuff
+	util.fancy.compiler(serverCompiler);
+	util.fancy.compiler(clientCompiler);
+
+	//Register to buildStats services
+	util.buildStats.register(clientCompiler,Object.assign({},settings,{
+		mode: "production",
+		target: "web",
+		location: "localfile",
+		URL: path.join(__dirname,clientCompiler.outputPath)
+	}));
+
+	util.buildStats.register(serverCompiler,Object.assign({},settings,{
+		mode: "production",
+		target: "server",
+		location: "localfile",
+		URL: path.join(__dirname,serverCompiler.outputPath)
+	}));
+
+	serverCompiler.run(function (err,stat) {
+		if (!err) {
+			console.log(gutil.colors.magenta.bold.inverse(`Server build completed\n`));
+		} else {
+			throw new Error(err);
+		}
+	});
+
+	clientCompiler.run(function (err,stat) {
+		if (!err) {
+			console.log(gutil.colors.magenta.bold.inverse(`Client build completed\n`));
+		} else {
+			throw new Error(err);
+		}
+	});
+
+});
+
 //==============Build task===================================================
 gulp.task("dev", ["dev.css", "watch.css", "dev.webpack"]);
-
+gulp.task("prod", ["prod.css", "prod.webpack"]);
 
 //==============Debug task===================================================
 
 gulp.task("dev.meteor",shell.task(["cd platform && meteor"], {
 	env: {
+		NODE_ENV: "development",
 		NODE_OPTIONS: "--debug-brk",
 		ROOT_URL : `http://${settings.dev.hostname}:3000`
 	}
@@ -107,3 +168,13 @@ gulp.task("dev.openbrowser", function (cb) {
 });
 
 gulp.task("debug",["dev.meteor","dev.inspector","dev.openbrowser"]);
+
+
+//================Production task===========================================
+gulp.task("production",shell.task([
+	"cd platform && meteor --production"
+], {
+	env: {
+		NODE_ENV: "production"
+	}
+}));
