@@ -38,11 +38,12 @@ module.exports = function (settings) {
 		devtool: isProd ? false : "source-map",
 		output: {
 			path: isProd ? settings.buildFolder : "/memory/webpack",
-			publicPath: settings.host + settings.publicPath,
-			filename: "[name].js"
+			publicPath: settings.devhost + settings.publicPath,
+			filename: "[name].js",
+			hotUpdateChunkFilename: "[id].[hash].hot-update.ignore.js"
 		},
 		entry: {
-			main: isProd ? ["./source/client/entry"] : ["./source/client/entry", `webpack-dev-server/client?${settings.host}`, "webpack/hot/dev-server"],
+			main: isProd ? ["./source/client/entry"] : ["./source/client/entry", `webpack-dev-server/client?${settings.devhost}`, "webpack/hot/dev-server"],
 			"common-vendor": ["jquery", "react", "react-router", "react-canvas", "history", "nuclear-js"]
 		},
 		resolve: {

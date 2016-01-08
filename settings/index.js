@@ -11,9 +11,11 @@ module.exports ={
 	dev: {
 		mode: "development",
 		hostname: ip.address(),
-		host: `http://${ip.address()}:8080`,
-		publicPrefix : "/assets/",
-		port: "8080"
+		publicPath : "/assets/",
+		devport: "8080",
+		webport: "3000",
+		debugport: "8088",
+		devhost: `http://${ip.address()}:8080`,
 	},
 	prod: {
 		mode: "production",
@@ -21,6 +23,6 @@ module.exports ={
 		hostname: ip.address(),
 		host: `http://${ip.address()}:3000`,
 		publicPath : "/assets/",
-		port: "3000"
+		webport: "3000"
 	}
 };

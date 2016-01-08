@@ -1,0 +1,74 @@
+{
+	"extends": "eslint:recommended",
+	"rules": {
+		//http://eslint.org/docs/rules/
+		"strict": 0,
+		"no-redeclare": [2, {"builtinGlobals": true}],
+		"no-unused-vars": [2, {
+			"varsIgnorePattern": "(RouteHandler|Link|XHR)",
+			"args": "none"
+		}],
+		"no-console": 0,
+		"quotes": [2, "double"],
+		"jsx-quotes": [2, "prefer-double"],
+		"no-mixed-spaces-and-tabs": [2, "smart-tabs"],
+		// React rules
+		//https://github.com/yannickcr/eslint-plugin-react
+		"react/display-name": 2,
+		"react/forbid-prop-types": 1,
+		"react/jsx-boolean-value": 0,
+		"react/jsx-closing-bracket-location": 0,
+		"react/jsx-curly-spacing": 1,
+		"react/jsx-indent-props": 0,
+		"react/jsx-max-props-per-line": 0,
+		"react/jsx-no-duplicate-props": 2,
+		"react/jsx-no-literals": 2,
+		"react/jsx-no-undef": 1,
+		"react/jsx-sort-prop-types": 0,
+		"react/jsx-sort-props": 0,
+		"react/jsx-uses-react": 1,
+		"react/jsx-uses-vars": 1,
+		"react/no-danger": 1,
+		"react/no-did-mount-set-state": 1,
+		"react/no-did-update-set-state": 1,
+		"react/no-direct-mutation-state": 1,
+		"react/no-multi-comp": 1,
+		"react/no-set-state": 1,
+		"react/no-unknown-property": 1,
+		"react/prefer-es6-class": 0,
+		"react/prop-types": 2,
+		"react/react-in-jsx-scope": 1,
+		"react/require-extension": 1,
+		"react/self-closing-comp": 0,
+		"react/sort-comp": 2,
+		"react/wrap-multilines": 1
+	},
+	"env": {
+		"browser": true,
+		"commonjs": true
+	},
+	"parser": "babel-eslint",
+	"globals": {
+		"process" : false,
+		"React": false,
+		"ReactRouter" : false,
+		"ReactDOM" : false,
+		"$" : false,
+		"Immutable" : false,
+		"Nuclear": false,
+		"Moment": false,
+		"Validator": false,
+		"cx" : false,
+		"Waypoint": false,
+		"DEVICE": false,
+		"mdx": false,
+		"initData": false,
+		"ReactCSSTransitionGroup": false
+	},
+	"plugins": [
+		"react"
+	],
+	"ecmaFeatures": {
+		"jsx": true
+	}
+}

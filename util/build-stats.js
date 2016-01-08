@@ -15,6 +15,7 @@ module.exports = {
 	register: function (webpackCompiler, settings) {
 		return webpackCompiler.plugin('done', function (stats) {
 
+			//ignore none emitted chunk & chunks marked as ignored
 			let buildStat = I.fromJS(stats.toJson({
 				hash: false,
 				timings: false,
@@ -28,7 +29,9 @@ module.exports = {
 				reasons: false,
 				source: false,
 				errorDetails: false
-			}).assets).filter(value=>value.get("emitted"));
+			}).assets).filter(value=>{
+				return (value.get("emitted") && !/\.ignore\./.test(value.get("name")));
+			});
 
 			if (settings.mode == "development") {
 				updateBuildInfo(I.fromJS({

@@ -14,7 +14,33 @@ var gulp = require("gulp"),
 		webpack = require("webpack"),
 		WebpackDevServer = require("webpack-dev-server"),
 		settings = require("./settings"),
+		stylint = require("gulp-stylint"),
+		gulpEslint = require("gulp-eslint"),
 		util = require("./util");
+
+//==============Linting=================================================
+gulp.task("lint.css", function (cb) {
+	gulp.src("./source/**/*.styl")
+			.pipe(stylint({
+				reporter: {
+					reporter: "stylint-stylish",
+					reporterOptions: {
+						verbose: true
+					}
+				}
+			}))
+			.pipe(stylint.reporter());
+	cb();
+});
+
+gulp.task("lint.js", function (cb) {
+	return gulp.src("./source/**/*.js")
+			.pipe(gulpEslint())
+			.pipe(gulpEslint.format());
+	cb();
+});
+
+gulp.task("lint", ["lint.css","lint.js"]);
 
 //==============CSS===================================================
 gulp.task("dev.css", function (cb) {
@@ -70,7 +96,7 @@ gulp.task("dev.webpack", ["dev.css"], function () {
 		mode: "development",
 		target: "web",
 		location: "web",
-		URL: settings.dev.host + settings.dev.publicPrefix
+		URL: settings.dev.devhost + settings.dev.publicPath
 	}));
 
 	util.buildStats.register(serverCompiler,Object.assign({},settings,{
@@ -90,14 +116,14 @@ gulp.task("dev.webpack", ["dev.css"], function () {
 		noInfo: true,
 		stats: {colors: true},
 		headers: {"Access-Control-Allow-Origin": "*"},
-		publicPath: settings.dev.publicPrefix
-	}).listen(settings.dev.port, settings.dev.hostname, function (err) {
+		publicPath: settings.dev.publicPath
+	}).listen(settings.dev.devport, settings.dev.hostname, function (err) {
 		if (err) {
 			console.log(gutil.colors.magenta.bold.inverse(err));
 			throw new gutil.PluginError("webpack-dev-server", err);
 		}
 		// Server listening
-		console.log(gutil.colors.magenta.bold.inverse(`[Webpack:] Build server started : ${settings.dev.host} \n`));
+		console.log(gutil.colors.magenta.bold.inverse(`[Webpack:] Build server started : ${settings.dev.devhost} \n`));
 		// keep the server alive or continue?
 		// callback();
 	});
@@ -152,39 +178,49 @@ gulp.task("prod", ["prod.css", "prod.webpack"]);
 
 //==============Debug task===================================================
 
-gulp.task("dev.meteor",shell.task(["cd platform && meteor"], {
+gulp.task("dbg.meteor",shell.task(["cd platform && meteor"], {
 	env: {
 		NODE_ENV: "development",
-		NODE_OPTIONS: "--debug-brk",
-		ROOT_URL : `http://${settings.dev.hostname}:3000`
+		NODE_OPTIONS: `--debug-brk`,
+		ROOT_URL : `http://${settings.dev.hostname}:${settings.dev.webport}`
 	}
 }));
 
-gulp.task("dev.inspector",shell.task([`node-inspector -p 8088 --web-host ${settings.dev.hostname}`]));
+gulp.task("dbg.inspector",shell.task([`node-inspector -p ${settings.dev.debugport} --web-host ${settings.dev.hostname}`]));
 
-gulp.task("dev.openbrowser", function (cb) {
-	opn(`http://${settings.dev.hostname}:8088/?ws=${settings.dev.hostname}:8088&port=5858`);
-	opn(`http://${settings.dev.hostname}:3000`);
+gulp.task("dbg.openbrowser", function (cb) {
+	opn(`http://${settings.dev.hostname}:${settings.dev.debugport}/?ws=${settings.dev.hostname}:${settings.dev.debugport}&port=5858`);
+	opn(`http://${settings.dev.hostname}:${settings.dev.webport}`);
 	cb();
 });
 
-gulp.task("debug",["dev.meteor","dev.inspector","dev.openbrowser"]);
+gulp.task("debug",["dbg.meteor","dbg.inspector","dbg.openbrowser"]);
 
 //================Development task==========================================
-gulp.task("development",shell.task([
+
+gulp.task("dev.meteor",shell.task([
 	"cd platform && meteor"
 ], {
 	env: {
-		NODE_ENV: "development"
+		NODE_ENV: "development",
+		ROOT_URL : `http://${settings.dev.hostname}:${settings.dev.webport}`
 	}
 }));
 
+gulp.task("dev.openbrowser", function (cb) {
+	opn(`http://${settings.dev.hostname}:${settings.dev.webport}`);
+	cb();
+});
 
+gulp.task("development",["dev.meteor","dev.openbrowser"]);
 //================Production task===========================================
-gulp.task("production",shell.task([
+
+gulp.task("prod.meteor",shell.task([
 	"cd platform && meteor --production"
 ], {
 	env: {
 		NODE_ENV: "production"
 	}
 }));
+
+gulp.task("production",["prod.meteor"]);
