@@ -170,6 +170,15 @@ gulp.task("dev.openbrowser", function (cb) {
 
 gulp.task("debug",["dev.meteor","dev.inspector","dev.openbrowser"]);
 
+//================Development task==========================================
+gulp.task("development",shell.task([
+	"cd platform && meteor"
+], {
+	env: {
+		NODE_ENV: "development"
+	}
+}));
+
 
 //================Production task===========================================
 gulp.task("production",shell.task([

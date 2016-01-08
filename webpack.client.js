@@ -60,7 +60,7 @@ module.exports = function (settings) {
 			loaders: [
 				{test: /\.htm/, loader: "html"},
 				{test: /\.js?$/, loader: "babel", query: babelSettings, exclude: /node_modules/},
-				{test: /\.css$/, loader: "style?sourceMap!css?sourceMap"},
+				{test: /\.css$/, loader: isProd ?  ExtractTextPlugin.extract("style", "css") : "style?sourceMap!css?sourceMap"},
 				{test: /\.(png|gif|jpe?g|ico)(\?.*)?$/, loader: "url?limit=8182"},
 				{test: /\.(svg|ttf|woff|eot)(\?.*)?$/, loader: "file"}
 			],
@@ -87,6 +87,7 @@ module.exports = function (settings) {
 				minChunks: Infinity
 			}),
 			!isProd ? new webpack.HotModuleReplacementPlugin() : ()=>null,
+			isProd ? new ExtractTextPlugin("styles.css") : ()=>null,
 			isProd ? new webpack.optimize.OccurenceOrderPlugin(true) : ()=>null,
 			isProd ? new webpack.optimize.UglifyJsPlugin({
 				sourceMap: false,
