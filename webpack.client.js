@@ -38,7 +38,7 @@ module.exports = function (settings) {
 		devtool: isProd ? false : "source-map",
 		output: {
 			path: isProd ? settings.buildFolder : "/memory/webpack",
-			publicPath: settings.host + settings.publicPrefix,
+			publicPath: settings.host + settings.publicPath,
 			filename: "[name].js"
 		},
 		entry: {
@@ -60,7 +60,7 @@ module.exports = function (settings) {
 			loaders: [
 				{test: /\.htm/, loader: "html"},
 				{test: /\.js?$/, loader: "babel", query: babelSettings, exclude: /node_modules/},
-				{test: /\.css$/, loader: "style?sourceMap!css?sourceMap"},
+				{test: /\.css$/, loader: isProd ?  ExtractTextPlugin.extract("style", "css") : "style?sourceMap!css?sourceMap"},
 				{test: /\.(png|gif|jpe?g|ico)(\?.*)?$/, loader: "url?limit=8182"},
 				{test: /\.(svg|ttf|woff|eot)(\?.*)?$/, loader: "file"}
 			],
@@ -70,6 +70,11 @@ module.exports = function (settings) {
 			noParse: /\.min\.js/
 		},
 		plugins: [
+			new webpack.DefinePlugin({
+				'process.env': {
+					'NODE_ENV': JSON.stringify(isProd ? "production" : "development")
+				}
+			}),
 			new webpack.PrefetchPlugin(undefined, "jquery"),
 			new webpack.PrefetchPlugin(undefined, "react"),
 			new webpack.PrefetchPlugin(undefined, "react-router"),
@@ -82,7 +87,15 @@ module.exports = function (settings) {
 				minChunks: Infinity
 			}),
 			!isProd ? new webpack.HotModuleReplacementPlugin() : ()=>null,
-			isProd ? new webpack.optimize.OccurenceOrderPlugin(true) : ()=>null
+			isProd ? new ExtractTextPlugin("styles.css") : ()=>null,
+			isProd ? new webpack.optimize.OccurenceOrderPlugin(true) : ()=>null,
+			isProd ? new webpack.optimize.UglifyJsPlugin({
+				sourceMap: false,
+				compress: {
+					warnings: false,
+					pure_funcs: ["console.log"]
+				}
+			}): ()=>null
 			/*{
 			 //Output stats
 			 apply: function(compiler) {

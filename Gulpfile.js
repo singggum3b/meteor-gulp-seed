@@ -117,6 +117,7 @@ gulp.task("prod.webpack", ["prod.css"], function () {
 		mode: "production",
 		target: "web",
 		location: "localfile",
+		publicPath: settings.prod.publicPath,
 		URL: path.join(__dirname,clientCompiler.outputPath)
 	}));
 
@@ -129,7 +130,7 @@ gulp.task("prod.webpack", ["prod.css"], function () {
 
 	serverCompiler.run(function (err,stat) {
 		if (!err) {
-			console.log(gutil.colors.magenta.bold.inverse(`Server build completed\n`));
+			util.fancy.log(gutil.colors.magenta.bold.inverse(`\nServer build completed\n`));
 		} else {
 			throw new Error(err);
 		}
@@ -137,7 +138,7 @@ gulp.task("prod.webpack", ["prod.css"], function () {
 
 	clientCompiler.run(function (err,stat) {
 		if (!err) {
-			console.log(gutil.colors.magenta.bold.inverse(`Client build completed\n`));
+			util.fancy.log(gutil.colors.magenta.bold.inverse(`\nClient build completed\n`));
 		} else {
 			throw new Error(err);
 		}
@@ -168,6 +169,15 @@ gulp.task("dev.openbrowser", function (cb) {
 });
 
 gulp.task("debug",["dev.meteor","dev.inspector","dev.openbrowser"]);
+
+//================Development task==========================================
+gulp.task("development",shell.task([
+	"cd platform && meteor"
+], {
+	env: {
+		NODE_ENV: "development"
+	}
+}));
 
 
 //================Production task===========================================
