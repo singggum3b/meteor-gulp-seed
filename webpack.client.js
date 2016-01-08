@@ -38,7 +38,7 @@ module.exports = function (settings) {
 		devtool: isProd ? false : "source-map",
 		output: {
 			path: isProd ? settings.buildFolder : "/memory/webpack",
-			publicPath: settings.devhost + settings.publicPath,
+			publicPath: isProd ? settings.publicPath : settings.devhost + settings.publicPath,
 			filename: "[name].js",
 			hotUpdateChunkFilename: "[id].[hash].hot-update.ignore.js"
 		},
