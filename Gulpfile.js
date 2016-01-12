@@ -40,7 +40,7 @@ gulp.task("lint.js", function (cb) {
 	cb();
 });
 
-gulp.task("lint", ["lint.css","lint.js"]);
+gulp.task("lint", ["lint.css", "lint.js"]);
 
 //==============CSS===================================================
 gulp.task("dev.css", function (cb) {
@@ -67,7 +67,7 @@ gulp.task("prod.css", function (cb) {
 				"include css": true,
 				paths: ["node_modules"],
 				filename: "style.styl",
-				use: [require("jeet")(), require("kouto-swiss")(), poststylus([autoprefixer({browsers: settings.browserSupports}),csswring({
+				use: [require("jeet")(), require("kouto-swiss")(), poststylus([autoprefixer({browsers: settings.browserSupports}), csswring({
 					map: false,
 					preserveHacks: true
 				})])]
@@ -92,22 +92,22 @@ gulp.task("dev.webpack", ["dev.css"], function () {
 	util.fancy.compiler(serverCompiler);
 	util.fancy.compiler(clientCompiler);
 	//Register to buildStats services
-	util.buildStats.register(clientCompiler,Object.assign({},settings,{
+	util.buildStats.register(clientCompiler, Object.assign({}, settings, {
 		mode: "development",
 		target: "web",
 		location: "web",
 		URL: settings.dev.devhost + settings.dev.publicPath
 	}));
 
-	util.buildStats.register(serverCompiler,Object.assign({},settings,{
+	util.buildStats.register(serverCompiler, Object.assign({}, settings, {
 		mode: "development",
 		watch: true,
 		target: "server",
 		location: "localfile",
-		URL: path.join(__dirname,serverCompiler.outputPath)
+		URL: path.join(__dirname, serverCompiler.outputPath)
 	}));
 
-	serverCompiler.watch({},function (err,stat) {
+	serverCompiler.watch({}, function (err, stat) {
 		//console.log(err,stat);
 	});
 
@@ -139,22 +139,22 @@ gulp.task("prod.webpack", ["prod.css"], function () {
 	util.fancy.compiler(clientCompiler);
 
 	//Register to buildStats services
-	util.buildStats.register(clientCompiler,Object.assign({},settings,{
+	util.buildStats.register(clientCompiler, Object.assign({}, settings, {
 		mode: "production",
 		target: "web",
 		location: "localfile",
 		publicPath: settings.prod.publicPath,
-		URL: path.join(__dirname,clientCompiler.outputPath)
+		URL: path.join(__dirname, clientCompiler.outputPath)
 	}));
 
-	util.buildStats.register(serverCompiler,Object.assign({},settings,{
+	util.buildStats.register(serverCompiler, Object.assign({}, settings, {
 		mode: "production",
 		target: "server",
 		location: "localfile",
-		URL: path.join(__dirname,serverCompiler.outputPath)
+		URL: path.join(__dirname, serverCompiler.outputPath)
 	}));
 
-	serverCompiler.run(function (err,stat) {
+	serverCompiler.run(function (err, stat) {
 		if (!err) {
 			util.fancy.log(gutil.colors.magenta.bold.inverse(`\nServer build completed\n`));
 		} else {
@@ -162,7 +162,7 @@ gulp.task("prod.webpack", ["prod.css"], function () {
 		}
 	});
 
-	clientCompiler.run(function (err,stat) {
+	clientCompiler.run(function (err, stat) {
 		if (!err) {
 			util.fancy.log(gutil.colors.magenta.bold.inverse(`\nClient build completed\n`));
 		} else {
@@ -178,15 +178,15 @@ gulp.task("prod", ["prod.css", "prod.webpack"]);
 
 //==============Debug task===================================================
 
-gulp.task("dbg.meteor",shell.task(["cd platform && meteor"], {
+gulp.task("dbg.meteor", shell.task(["cd platform && meteor"], {
 	env: {
 		NODE_ENV: "development",
 		NODE_OPTIONS: `--debug-brk`,
-		ROOT_URL : `http://${settings.dev.hostname}:${settings.dev.webport}`
+		ROOT_URL: `http://${settings.dev.hostname}:${settings.dev.webport}`
 	}
 }));
 
-gulp.task("dbg.inspector",shell.task([`node-inspector -p ${settings.dev.debugport} --web-host ${settings.dev.hostname}`]));
+gulp.task("dbg.inspector", shell.task([`node-inspector -p ${settings.dev.debugport} --web-host ${settings.dev.hostname}`]));
 
 gulp.task("dbg.openbrowser", function (cb) {
 	opn(`http://${settings.dev.hostname}:${settings.dev.debugport}/?ws=${settings.dev.hostname}:${settings.dev.debugport}&port=5858`);
@@ -194,16 +194,16 @@ gulp.task("dbg.openbrowser", function (cb) {
 	cb();
 });
 
-gulp.task("debug",["dbg.meteor","dbg.inspector","dbg.openbrowser"]);
+gulp.task("debug", ["dbg.meteor", "dbg.inspector", "dbg.openbrowser"]);
 
 //================Development task==========================================
 
-gulp.task("dev.meteor",shell.task([
+gulp.task("dev.meteor", shell.task([
 	"cd platform && meteor"
 ], {
 	env: {
 		NODE_ENV: "development",
-		ROOT_URL : `http://${settings.dev.hostname}:${settings.dev.webport}`
+		ROOT_URL: `http://${settings.dev.hostname}:${settings.dev.webport}`
 	}
 }));
 
@@ -212,10 +212,11 @@ gulp.task("dev.openbrowser", function (cb) {
 	cb();
 });
 
-gulp.task("development",["dev.meteor","dev.openbrowser"]);
+gulp.task("development", ["dev.meteor", "dev.openbrowser"]);
+
 //================Production task===========================================
 
-gulp.task("prod.meteor",shell.task([
+gulp.task("prod.meteor", shell.task([
 	"cd platform && meteor --production"
 ], {
 	env: {
@@ -223,4 +224,63 @@ gulp.task("prod.meteor",shell.task([
 	}
 }));
 
-gulp.task("production",["prod.meteor"]);
+gulp.task("production", ["prod.meteor"]);
+
+//==============Gulp task static============================================
+
+gulp.task("static.babel", function (cb) {
+	// Start a webpack-dev-server
+	let clientCompiler = webpack(Object.assign({},require("./webpack.static.js")(settings.prod),{
+		output: {
+			path: "build/static",
+			filename: "[name].js",
+			library: "App",
+			libraryTarget: "commonjs2"
+		},
+		target: "node"
+	}));
+
+	//Apply some fancy stuff
+	util.fancy.compiler(clientCompiler);
+
+	//Register to buildStats services
+	util.buildStats.register(clientCompiler, Object.assign({}, settings, {
+		mode: "production",
+		target: "web",
+		location: "localfile",
+		publicPath: settings.prod.publicPath,
+		URL: path.join(__dirname, clientCompiler.outputPath)
+	}));
+
+	clientCompiler.run(function (err, stat) {
+		cb();
+		if (!err) {
+			util.fancy.log(gutil.colors.magenta.bold.inverse(`\nClient build completed.\n`));
+		} else {
+			throw new Error(err);
+		}
+	});
+
+});
+
+gulp.task("static",["static.babel"], function () {
+
+	util.fancy.log(gutil.colors.magenta.bold.inverse(`\nRendering static..\n`));
+
+	let React = require("react");
+	let ReactDOMServer = require("react-dom/server");
+	let jsdom = require("jsdom");
+
+	//Polyfill window==========================================
+	jsdom.env("<html><body></body></html>", function (err, window) {
+
+		let element = require("./build/static/main.js")(window);
+		let output = ReactDOMServer.renderToStaticMarkup(element);
+
+		require('fs').writeFileSync("./build/static/index.html", output, "utf8");
+
+		util.fancy.log(gutil.colors.magenta.bold.inverse(`\nRendering completed.\n`));
+
+	});
+
+});
