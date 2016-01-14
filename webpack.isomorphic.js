@@ -20,15 +20,13 @@ module.exports = function (settings) {
 	return {
 		devtool: false,
 		output: {
-			path: "build/static/assets",
+			path: isProd ? settings.buildFolder : "/memory/webpack",
+			publicPath: isProd ? settings.publicPath : settings.devhost + settings.publicPath,
 			filename: "[name].js",
-			library: "App",
-			libraryTarget: "commonjs2",
-			publicPath: "assets/"
+			hotUpdateChunkFilename: "[id].[hash].hot-update.ignore.js"
 		},
-		target: "node",
 		entry: {
-			static: ["./source/static"]
+			main: ["./source/client/isomorphic"]
 		},
 		resolve: {
 			// Tell webpack to look for required files in bower and node

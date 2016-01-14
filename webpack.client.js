@@ -48,7 +48,7 @@ module.exports = function (settings) {
 		},
 		resolve: {
 			// Tell webpack to look for required files in bower and node
-			modulesDirectories: ["custom_modules", "node_modules", "source/client"]
+			modulesDirectories: ["custom_modules", "node_modules", "source"]
 		},
 		resolveLoader: {
 			modulesDirectories: ["custom_modules", "node_modules"]

@@ -16,6 +16,9 @@ var gulp = require("gulp"),
 		settings = require("./settings"),
 		stylint = require("gulp-stylint"),
 		gulpEslint = require("gulp-eslint"),
+		del = require("del"),
+		fs = require("fs"),
+		I = require("immutable"),
 		util = require("./util");
 
 //==============Linting=================================================
@@ -226,13 +229,13 @@ gulp.task("prod.meteor", shell.task([
 
 gulp.task("production", ["prod.meteor"]);
 
-//==============Gulp task static============================================
+//==============Gulp task isomorphic============================================
 
-gulp.task("static.babel", function (cb) {
+gulp.task("isomorphic.babel", function (cb) {
 	// Start a webpack-dev-server
-	let clientCompiler = webpack(Object.assign({},require("./webpack.static.js")(settings.prod),{
+	let clientCompiler = webpack(Object.assign({},require("./webpack.isomorphic.js")(settings.prod),{
 		output: {
-			path: "build/static",
+			path: "build/isomorphic",
 			filename: "[name].js",
 			library: "App",
 			libraryTarget: "commonjs2"
@@ -242,15 +245,6 @@ gulp.task("static.babel", function (cb) {
 
 	//Apply some fancy stuff
 	util.fancy.compiler(clientCompiler);
-
-	//Register to buildStats services
-	util.buildStats.register(clientCompiler, Object.assign({}, settings, {
-		mode: "production",
-		target: "web",
-		location: "localfile",
-		publicPath: settings.prod.publicPath,
-		URL: path.join(__dirname, clientCompiler.outputPath)
-	}));
 
 	clientCompiler.run(function (err, stat) {
 		cb();
@@ -263,9 +257,9 @@ gulp.task("static.babel", function (cb) {
 
 });
 
-gulp.task("static",["static.babel"], function () {
+gulp.task("isomorphic",["isomorphic.babel"], function () {
 
-	util.fancy.log(gutil.colors.magenta.bold.inverse(`\nRendering static..\n`));
+	util.fancy.log(gutil.colors.magenta.bold.inverse(`\nRendering isomorphic..\n`));
 
 	let React = require("react");
 	let ReactDOMServer = require("react-dom/server");
@@ -274,13 +268,71 @@ gulp.task("static",["static.babel"], function () {
 	//Polyfill window==========================================
 	jsdom.env("<html><body></body></html>", function (err, window) {
 
-		let element = require("./build/static/main.js")(window);
+		let element = require("./build/isomorphic/main.js")(window);
 		let output = ReactDOMServer.renderToStaticMarkup(element);
 
-		require('fs').writeFileSync("./build/static/index.html", output, "utf8");
+		require('fs').writeFileSync("./build/isomorphic/index.html", output, "utf8");
 
 		util.fancy.log(gutil.colors.magenta.bold.inverse(`\nRendering completed.\n`));
 
+	});
+
+});
+
+//==============Gulp task static============================================
+gulp.task("static.clean", function (cb) {
+	del.sync([
+		"build/static/**/*"
+	]);
+	cb();
+});
+
+
+gulp.task("static.babel",["static.clean"], function (cb) {
+	// Start a webpack-dev-server
+	let clientCompiler = webpack(require("./webpack.static.js")(settings.prod));
+
+	//Apply some fancy stuff
+	util.fancy.compiler(clientCompiler);
+
+	clientCompiler.run(function (err, stat) {
+		cb();
+		if (!err) {
+			util.fancy.log(gutil.colors.magenta.bold.inverse(`\nClient build completed.\n`));
+		} else {
+			throw new Error(err);
+		}
+	});
+
+});
+
+gulp.task("static",["static.clean","static.babel"], function () {
+
+	util.fancy.log(gutil.colors.magenta.bold.inverse(`\nRendering static..\n`));
+
+	let React = require("react");
+	let ReactDOMServer = require("react-dom/server");
+	let jsdom = require("jsdom");
+	let setups = I.fromJS(require("./source/static/setup"));
+
+	//Polyfill window==========================================
+	jsdom.env({
+		html: "<html><body></body></html>",
+		url: "http://localhost",
+		done: function (err, window) {
+
+			let element = require("./build/static/assets/static.js");
+			setups.get("route").map(function (value,index) {
+				window.location.href = value.get("URL");
+				window.document.title = value.get("name");
+				let output = ReactDOMServer.renderToStaticMarkup(element(window));
+				fs.writeFileSync(`./build/static/${value.get("name")}.html`, output, "utf8");
+
+			});
+
+			util.fancy.log(gutil.colors.magenta.bold.inverse(`\nRendering completed.\n`));
+
+		}
 	});
 
 });
