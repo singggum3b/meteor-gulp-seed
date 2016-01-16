@@ -7,31 +7,50 @@ var updateLock= false;
 var updateQueue = I.List([]);
 
 /*settings = Object.assign({},settings,{
-	@mode: "development|production",
-	@target: "web|server|cordova",
-	@location: "[hostURL]|localfile"
-});*/
+ @mode: "development|production",
+ @target: "web|server|cordova",
+ @location: "[hostURL]|localfile"
+ });*/
 module.exports = {
 	register: function (webpackCompiler, settings) {
 		return webpackCompiler.plugin('done', function (stats) {
 
 			//ignore none emitted chunk & chunks marked as ignored
-			let buildStat = I.fromJS(stats.toJson({
+			let _stat = stats.toJson({
 				hash: false,
 				timings: false,
 				chunks: false,
-				chunkModules: false,
+				chunkModules: true,
 				modules: false,
 				children: true,
 				version: true,
 				cached: false,
 				cachedAssets: false,
-				reasons: false,
+				reasons: true,
 				source: false,
-				errorDetails: false
-			}).assets).filter(value=>{
+				errorDetails: true
+			});
+
+			let assetsByChunkName = I.fromJS(_stat.assetsByChunkName).toList().flatten().map(function (name,index) {
+				console.log(name);
+				return I.Map({
+					name: name,
+					emitted: true,
+					chunkNames: name
+				})
+			});
+
+			let assets = I.fromJS(_stat.assets).filter(value=>{
 				return (value.get("emitted") && !/\.ignore\./.test(value.get("name")));
 			});
+
+			console.log(assets.concat(assetsByChunkName));
+
+
+			let buildStat = assets.concat(assetsByChunkName);
+
+			//Do not update if build error
+			if (_stat.errors.length) return;
 
 			if (settings.mode == "development") {
 				updateBuildInfo(I.fromJS({
@@ -61,7 +80,7 @@ module.exports = {
 
 function updateBuildInfo(newInfo) {
 	if (updateLock) {
-		updateQueue.push(newInfo);
+		updateQueue = updateQueue.push(newInfo);
 	} else {
 		updateLock = true;
 		oldExternalBuildInfo = externalBuildInfo;

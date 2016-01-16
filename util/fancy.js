@@ -27,9 +27,8 @@ module.exports = {
 	},
 	compiler(webpackCompiler) {
 
-
 		webpackCompiler.apply(new webpack.ProgressPlugin(require("throttle-debounce").debounce(0,function (percentage, msg) {
-			if (!progressor || !progressor.started || progressor.isComplete()) {
+			if (!progressor) {
 				this.progressor = progressor = new Progressor({
 					format: " «╣%bar%╠» " + " %message% ".magenta.bold + " %percent:3s%%".bold.green.dim + " Memory %memory:6s%".red.bold,
 					emptyBarChar: "▒".gray,
@@ -37,6 +36,9 @@ module.exports = {
 					barChar: "█".green.dim,
 					overwrite: true
 				}, 100);
+				this.progressor.setMessage("Build..");
+				this.progressor.start();
+			} else if (!progressor.started || progressor.isComplete()) {
 				this.progressor.setMessage("Build..");
 				this.progressor.start();
 			}

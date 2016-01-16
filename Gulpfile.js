@@ -118,7 +118,10 @@ gulp.task("dev.webpack", ["dev.css"], function () {
 		hot: true,
 		noInfo: true,
 		stats: {colors: true},
-		headers: {"Access-Control-Allow-Origin": "*"},
+		headers: {
+			"Access-Control-Allow-Origin": `http://${settings.dev.hostname}:${settings.dev.webport}`,
+			"Access-Control-Allow-Credentials" :true
+		},
 		publicPath: settings.dev.publicPath
 	}).listen(settings.dev.devport, settings.dev.hostname, function (err) {
 		if (err) {
