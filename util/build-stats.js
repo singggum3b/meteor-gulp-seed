@@ -32,11 +32,10 @@ module.exports = {
 			});
 
 			let assetsByChunkName = I.fromJS(_stat.assetsByChunkName).toList().flatten().map(function (name,index) {
-				console.log(name);
-				return I.Map({
+				return I.fromJS({
 					name: name,
 					emitted: true,
-					chunkNames: name
+					chunkNames: [name]
 				})
 			});
 
@@ -44,10 +43,12 @@ module.exports = {
 				return (value.get("emitted") && !/\.ignore\./.test(value.get("name")));
 			});
 
-			console.log(assets.concat(assetsByChunkName));
-
-
-			let buildStat = assets.concat(assetsByChunkName);
+			//Merge assets output
+			let buildStat = assets.concat(assetsByChunkName.filterNot(function (val) {
+				return assets.some(function (v) {
+					return v.get("name") == val.get("name");
+				})
+			}));
 
 			//Do not update if build error
 			if (_stat.errors.length) return;
