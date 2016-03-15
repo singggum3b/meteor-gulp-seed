@@ -1,5 +1,4 @@
-QC auth: clubf4/Uv5ERh25
-driver account on qc: info@dev.f4.com/@abcd1234
+
 
 * Development with mockup data
 	npm start
