@@ -1,0 +1,28 @@
+.v-index-page
+	border-top 1px solid $color-neutral
+	padding-top 30px
+	.v-sidebar
+		width 260px
+		float left
+		padding-left 60px
+		padding-top 50px
+		position relative
+		font-size 18px
+		color $color-neutral
+
+		&:before
+			content ""
+			border 4px solid $color-primary
+			background-color white
+			size 25px
+			display block
+			border-radius 50%
+			absolute 30px -12.5px false false
+	.v-table-wrapper
+		width auto
+		overflow hidden
+		border 2px solid $color-neutral
+		padding 0 25px 10px
+		background-color white
+		margin-right 40px
+		min-height s('calc(100vh - 120px - 200px)')
