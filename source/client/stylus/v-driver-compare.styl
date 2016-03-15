@@ -1,0 +1,279 @@
+.p-drivers-compare
+	button-profile()
+		margin-top (35px/2)
+		min-width auto
+		min-width initial
+		width 100%
+		.tablet &, .desktop &
+			span
+				font-size 1em
+			.button
+				padding 20px 0
+		.desktop &
+			margin-top 40px
+		.button
+			padding 10px 0
+		span
+			font-size 12px
+			text-transform uppercase
+	table-data()
+		table
+			width 100%
+			text-align center
+			.tablet &, .desktop &
+				p
+					font-size 16px
+					margin 0.6em 0
+			.desktop &
+				p
+					font-size (27px/2)
+			p
+				font-size (24px/2)
+				font-weight bold
+				text-transform uppercase
+				margin 15px 0 10px 0
+			tr
+				border-bottom 1px solid #cccccc
+				gs("fluid", 3, (100%/3), 0)
+				td, th
+					col(1)
+					float none
+			th p
+				color #b0b0b0
+
+	.v-block-title
+		&:first-child
+			margin-top: 0
+			.title
+				font-size 25px
+				margin 0 0 45px 0
+				.tablet &
+					margin 65px 0 58px 0
+				.desktop &
+					font-size 30px
+					margin 100px 0 60px 0
+		&.highlights, &.career
+			margin 0
+			padding 70px 0 0 0
+			position relative
+			.title
+				margin 0
+				mobile-font(50px, 55px)
+				.desktop &
+					mobile-font(60px, 45px)
+			&:before
+				content ''
+				display block
+				background url('../img/header_shadow.png') no-repeat left top
+				height 14px
+				width 100%
+				background-size cover
+				position absolute
+				left 0
+				top 0
+				.phone &
+					@media (orientation: portrait)
+						background-size contain
+		&.highlights
+			.desktop &
+				padding 50px 0 0 0
+		&.career
+			padding 85px 0 0 0
+			.tablet &
+				padding (145px/2) 0 0 0
+			.desktop &
+				padding 50px 0 0 0
+
+	.v-compare-bio
+		gs("fluid", 12, 50%, 0)
+		text-align center
+		position relative
+		margin-bottom 20px
+		&:before
+			content ''
+			display block
+			background url('../img/compare-separator.png') no-repeat left top
+			mobile-size(22px, 200%)
+			background-size contain
+			position absolute
+			top 0
+			left 50%
+			transform translateX(-50%)
+		.tablet &
+			gs("fluid", 12, (100%/12), 10px)
+			margin-bottom 70px
+			.driver-card
+				padding 0 35px
+				col(4)
+				offset(1)
+				@media (orientation: portrait)
+					padding 0
+				&:last-child
+					offset(2)
+		.desktop &
+			gs("fluid", 12, (100%/12), 10px)
+			margin-bottom 70px
+			.driver-card
+				padding 0
+				col(3)
+				offset(2)
+		.driver-card
+			col(6)
+			padding 0 20px
+			.name
+				mobile-font(29px, 44px)
+				color #272425
+				text-transform uppercase
+				font-weight bold
+				.tablet &
+					mobile-font(49px, 73px)
+				.desktop &
+					mobile-font(40px, 60px)
+			.photo
+				img
+					width 100%
+					max-width 204px
+					margin 15px 0
+					border 1px solid #bcbcbc
+					.tablet &, .desktop &
+						margin 20px 0
+				.b-table
+					table
+						width 100%
+						tr
+							gs("fluid", 1, 100%, 0)
+							.tablet &, .desktop &
+								th
+									margin 0 10px 0 0
+								td
+									margin 0
+								td, th
+									float none
+									width initial
+							th, td
+								col(1)
+							td
+								margin 0 0 7px 0
+						p
+							mobile-font(24px, 28px)
+							text-transform uppercase
+							font-weight bold
+							margin 0
+							.tablet &
+								mobile-font(37px, 74px)
+							.desktop &
+								mobile-font(30px, 60px)
+						th p
+							color #b1b1b1
+						td p
+							color #272425
+			.btn-profile
+				button-profile()
+
+	.v-compare-highlight
+		margin 40px 0 0 0
+		table-data()
+		.tablet &
+			margin 25px 0 0
+			padding-bottom 60px
+		.desktop &
+			padding-bottom 50px
+			margin 25px 0 0 0
+
+	.v-compare-statistic
+		table-data()
+		.statistic-item
+			margin 40px 0 0 0
+			//.desktop &
+			//	margin 60px 0 0
+			.b-table
+				&.table-result
+					.tablet &, .desktop &
+						table tr
+							gs("fluid", 7, (100%/7), 0)
+							th, td
+								col(1)
+								float none
+				table
+					tr
+						gs("fluid", 3, (100%/3), 0)
+						td, th
+							col(1)
+							float none
+
+			.table-title
+				table-title()
+				border-bottom 1px solid #cccccc
+				.tablet &, .desktop &
+					font-size (37px/2)
+				.desktop &
+					font-size 15px
+			.v-compare-event-list
+				.item
+					&.active
+						event-item-active()
+						.item-body
+							border none
+							background #f3f3f3
+					.item-title
+						event-item-title()
+						border none
+						border-bottom 1px solid $line-title-gray
+						padding-right 35px
+						.tablet &
+							font-size 16px
+						.desktop &
+							font-size (27px/2)
+					.v-compare-event-item
+						.event-row
+							&:last-child
+								table
+									tr
+										background #fff
+										&:first-child
+											background #ececec
+						.b-carousel
+							.item-container
+								.item-group
+									.phone &
+										display flex
+							.control-container
+								.next
+									right 5px
+								.prev
+									left 5px
+								.next, .prev
+									top 10px
+									transform translate(0, 0)
+									width 22px
+									height 22px
+								.circle-list
+									display none
+		.actions
+			gs("fluid", 12, (100%/12), 0)
+			.wrapper
+				col(6)
+				padding 0 20px
+				.b-button
+					button-profile()
+					margin-top 50px
+			.tablet &
+				gs("fluid", 12, (100%/12), 10px)
+				.wrapper
+					col(4)
+					offset(1)
+					padding 0 35px
+					@media (orientation: portrait)
+						padding 0
+					&:last-child
+						offset(2)
+					.b-button
+						margin-top 85px
+			.desktop &
+				gs("fluid", 12, (100%/12), 10px)
+				.wrapper
+					col(3)
+					offset(2)
+					padding 0
+					.b-button
+						margin-top (55px/2)

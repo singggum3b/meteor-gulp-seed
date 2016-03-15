@@ -1,0 +1,104 @@
+.v-article
+	position relative
+	&:after
+		content ""
+		background url("../img/header_shadow.png") no-repeat center 0
+		position absolute
+		bottom 0
+		left 0
+		right 0
+		height 14px
+
+	.tablet &
+		padding 0 (165px/2) 60px (165px/2)
+	.desktop &
+		padding 0 200px 70px 200px
+	.phone &
+		padding-bottom 80px
+	.v-block-title
+		.tablet &, .desktop &
+			text-align left
+	.info
+		text-align center
+		.tablet &, .desktop &
+			text-align left
+			padding 0 0 23px 0
+			margin 0 0 30px 0
+			border-bottom 1px solid $color-line-border-gray
+		&:after
+			content ''
+			clear both
+			display block
+		&:before
+			content ''
+			display block
+			background url('../img/article.jpg') no-repeat left top
+			mobile-size(61px, 61px)
+			margin 0 auto 10px auto
+			background-size contain
+			.tablet &, .desktop &
+				margin 0 15px 0 0
+				display inline-block
+				vertical-align middle
+		span
+			mobile-font(30px, 37px)
+			color rgba(#5a5b5d, .5)
+			.tablet &, .desktop &
+				display inline-block
+				vertical-align middle
+		.v-share
+			margin 30px 0 0 0
+			.tablet &, .desktop &
+				float right
+				margin 0
+				display inline-block
+				vertical-align middle
+			.share
+				display block
+				background url("../img/social_share.png")	center no-repeat
+				background-size contain
+				mobile-size(51px, 51px)
+				opacity 0.4
+				margin 0 auto
+				.stButton
+					margin 0
+					.stLarge
+						mobile-size(51px, 51px)
+						background-image: none!important
+			&:after
+				content ''
+				display block
+				clear both
+				padding 0 0 20px 0
+				border-bottom 1px solid $color-line-border-gray
+				margin 0 0 28px 0
+				.tablet &, .desktop &
+					display: none
+			.b-button
+				mobile-size(51px, 51px)
+				margin 0 5px
+	.video-wrapper
+		fluid-video()
+		iframe
+			border none
+			display block
+	.image-wrapper
+		margin 20px 0
+		img
+			display block
+			width 100%
+	.summary
+		mobile-font(36px, 42px)
+		color #232323
+		font-weight bold
+		margin 20px 0 0 0
+	.content
+		mobile-font(28px, 39px)
+		margin 20px 0 0 0
+		color #232323
+		img
+			width 100%
+		p
+			margin 0 0 23px 0
+			&:last-child
+				margin 0

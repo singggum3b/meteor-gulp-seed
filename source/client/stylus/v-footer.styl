@@ -1,0 +1,213 @@
+$padding-desktop = 25px
+
+.v-footer
+	position relative
+	margin-top 100px
+	padding 0 20px
+	&:before
+		content ""
+		display block
+		absolute false false 0
+		background url("../img/footer_trail.jpg") 0 100% repeat-x
+		height 76px
+		width 80vw
+		left 0
+		z-index: -1
+
+	footer
+		position relative
+		width 100%
+		height 100%
+	.u-hide-on-phone
+		display inline-block
+	.u-show-on-phone
+		display none
+	.footer-body
+		gs("fluid",3,(100/3)%,0%)
+		margin-bottom 8px
+
+	.footer-end
+		position relative
+		width 100%
+		clear both
+		text-align center
+		font-size 12px
+		color #333333
+		height 74px
+		padding-top 15px
+		a
+			color inherit
+		.footer-end-text
+			position relative
+			clear both
+			text-decoration underline
+	.footer-end-logo
+		position absolute
+		width 46px
+		bottom 18px
+		right 6%
+		img
+			width 100%
+
+	.logo
+		padding 0 25px 0 6
+		font-size 10px
+		> div
+			position relative
+			clear both
+			max-width 292px
+		.logo-text
+			margin-top 30px
+		.logo-img
+			height 63px
+			> div
+				position absolute
+				transform translate3d(0,-50%,0)
+			.f4logo-img-wrapper
+				left 0
+				top 50%
+				max-width 172px
+				width 70%
+			.fialogo-img-wrapper
+				right 4%
+				top 50%
+				max-width 52px
+				width 20%
+		img
+			display block
+			width 100%
+
+	.wrapper
+		col(1)
+		.title
+			margin 0 0 15px 0
+			font-size 18px
+			color #cacaca
+
+	.quick-navigation, .contact-us
+		padding 0 $padding-desktop
+
+	.content
+		position relative
+		width inherit
+		clear both
+		text-align left
+		text-transform uppercase
+		font-size 15px
+		ul
+			position relative
+			display block
+			padding 0
+			list-style none
+			margin 0 0 46px 0
+			li
+				position relative
+				display block
+				clear both
+				padding 5px 0
+				&.active
+					a
+						color #e60d40
+				a
+					text-decoration none
+					color #000
+
+	.contact-us
+		ul
+			text-transform none
+	.qr-code
+		position absolute
+		right 40px
+		bottom 10px
+		> span
+			vertical-align bottom
+			display inline-block
+
+		.asset
+			background-color $color-primary
+			text-align center
+			padding 15px
+			color white
+
+		.question
+			color $color-primary
+			font-size 20px
+			padding 10px
+			a
+				color $color-primary
+
+.desktop
+	.v-footer
+		.footer-body
+			max-width 1200px
+			padding 0 30px
+
+		.footer-end-logo
+			right 30px
+
+.tablet
+	.v-footer
+		margin-top 80px
+		.footer-body
+			.wrapper
+				width 31%
+				.quick-navigation, .contact-us
+					padding 0 5px
+		.title
+			font-size 14px
+		.logo-text
+			font-size 8px
+		.content
+			font-size 12px
+		.footer-end
+			font-size 10px
+.phone
+	.v-footer
+		text-align center
+		padding 0 6px
+		margin-top 60px
+		.logo-img
+			height auto
+			> div
+				position relative
+				clear both
+				margin 0 auto 15px auto
+				transform initial
+				> img
+					transform none
+			.f4logo-img-wrapper
+				left initial
+				top initial
+			.fialogo-img-wrapper
+				right initial
+				top initial
+		.logo-text
+			font-size 14px
+		.u-show-on-phone
+			display block
+		.u-hide-on-phone
+			display none
+		.logo
+			margin-bottom 50px
+			font-size 14px
+			padding 0
+			.logo-img .fialogo-img-wrapper
+				max-width 80px
+				width 30%
+			> div
+				max-width initial
+			img
+				margin-left auto
+				margin-right auto
+
+		.footer-body
+			gs("fluid",1,(100)%,0%)
+			margin-bottom 50px
+			.wrapper
+				col(1)
+			.quick-navigation
+				display none
+		.content
+			text-align center
+		.footer-end
+			padding-top 10px

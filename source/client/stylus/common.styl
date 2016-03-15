@@ -1,0 +1,325 @@
+// ========Variable====================================
+// http://kouto-swiss.io/docs.html#vendors
+ks-vendors-prefixes = false
+$base-unit = 18px
+
+// http://www.google.com/design/spec/style/color.html#color-color-palette
+$color-primary = #f78f40
+$color-secondary = #005da4
+$color-neutral = #c2c2c1
+$color-black = "Black"
+$color-white = white
+$color-body = #ececeb
+$text-black = #636466
+$text-black-description = #5a5b5d
+$text-black-big = #414143
+$text-black-light = #9b9b9b
+$text-black-driver-name = #272425
+$button-bgcolor = #e60d40
+$text-gray = #b0b0b0
+$color-line-border-gray = #dbdbdb
+$button-bgcolor = #e60d40
+$bgcolor-title-gray = #ececec
+$line-title-gray = #c1c1c1
+$color-line-border-profile = #e1e1e1
+$color-placeholder = #b7b7b7
+
+box-sizing-reset()
+normalize()
+
+// ========Font====================================
+html,  button,  input,  select,  textarea,
+.pure-g [class *= "pure-u"]
+	font-family $font-body
+	-webkit-font-smoothing antialiased
+
+.title
+	font-family $font-headline
+	font-weight bold
+.alt-title
+	font-family $font-headline-alt
+
+// ========Common====================================
+
+html
+	-webkit-tap-highlight-color transparent
+
+body
+	margin 0
+	background-color white
+	position relative
+	padding 0
+	background url("../img/body_bg.png") no-repeat
+	&:before
+		content ""
+		display block
+		background url("../img/footer_bg.jpg") 100% 100% no-repeat
+		position: absolute
+		width 100%
+		bottom 0
+		height 328px
+
+img
+	max-width 100%
+#app
+
+	margin-left auto
+	margin-right auto
+	padding 0 20px
+
+	> .b-loading
+		background-color white
+		fixed 0 0 0 0
+		.wrapper
+			absolute 50% 0 false 0
+			transform translate(0,-50%)
+
+	.v-app
+		padding 0
+
+		> .content
+			padding 0 10px
+
+.desktop
+	#app
+		padding 0
+		.v-app
+			> .content
+				padding 0
+
+	[class^="p-"]
+		max-width 1200px
+		margin auto
+		padding 0 30px
+
+.phone,  .tablet
+	cursor pointer
+	body
+		cursor pointer
+
+.tablet
+	#app
+		padding 0 20px
+		.v-app
+			padding 0
+			> .content
+				padding 0
+
+.phone
+	body
+		background url("../img/body_mobile_bg.png") no-repeat
+		background-size 768px 330px
+
+		&:before
+			background-position-x 90%
+	#app
+		padding 0
+		width 100%
+		overflow hidden
+		.v-app
+			padding 0
+			> .content
+				padding 0 10px
+
+[class^="p-"]
+	min-height calc("100vh - 550px")
+//===========================================
+.b-field.b-field-text
+	input
+		background-color white
+		border 1px solid gray
+		-webkit-appearance none
+		border-radius 0
+		&:focus
+			border 1px solid gray
+.b-dropdown
+	border 1px solid #b7b7b7
+	//height 27px
+	min-width 192px
+	text-align left
+	font-size 17px
+	.b-button
+		display block
+	&.disabled
+		opacity 0.5
+		cursor not-allowed
+	.v-news &
+		font-size 17px
+		height 39px
+		&:before
+			top 6px
+			width 26px
+			height 26px
+		.button
+			padding 9px
+	color #6e6e6e
+	>.button
+		padding-right 0px
+		.title
+			white-space nowrap
+			margin-right 40px
+			overflow hidden
+			text-overflow ellipsis
+			display block
+	.button-list
+		width 100%
+		border 1px solid #b7b7b7
+
+	a
+		width 100%
+		height 100%
+		display block
+		padding 10px
+		.v-news &
+			padding 6px
+	&:before
+		position absolute
+		top 9px
+		right 9px
+		content ""
+		display block
+		width 20px
+		height 20px
+		background url("../img/svg/prev.svg")	center no-repeat
+		background-size 70% 70%
+		transform rotate(-90deg)
+		.v-news &
+			top 5px
+			right 6px
+
+//============================================
+.group:before,
+.group:after
+	display table
+	content ""
+
+.group:after
+	clear both
+
+.group
+	zoom 1
+
+/* For IE 6/7 (trigger hasLayout) */
+
+.waypoint-anchor
+	// Fix for IE ,  FF
+	display block
+	height 1px
+
+
+.btn
+	display inline-block
+	padding 0
+	min-width 191px
+	border 0
+	background-color $button-bgcolor
+	color white
+	text-align center
+	text-decoration none
+	cursor pointer
+	font-size 12px
+	line-height 12px
+
+	&.btn--black
+		background-color #2e2b2c
+
+	.button
+		padding 8px 25px
+		display block
+
+	a
+		text-decoration none
+		color white
+
+	.title
+		font-weight bold
+		font-family $font-body
+
+	& + .btn
+		margin-left 4px
+	&:hover
+		background-color palette($color-primary)
+
+	&[disabled]
+		background-color gainsboro
+		color grey
+		cursor not-allowed
+
+.btn.load-more
+	font-size 15px
+	line-height 15px
+	margin-top 30px
+	.button
+		padding 15px 50px
+		display block
+
+.phone
+	.btn.load-more
+		display block
+
+.b-scroll-toggle
+	transition all 1s
+	&.hide
+		position absolute
+		right 0
+		left 0
+		transform translate(0,  -100%)
+
+//====================================
+.content
+	> .loader
+		position fixed
+		top 40%
+		left 50%
+		height 124px
+		transform translate(-50%, 0)
+		text-align center
+
+		img
+			display inline-block
+			min-height 70px
+
+// ================================
+arrow-upper(color)
+	&:after
+		bottom 0
+		left 50%
+		border solid transparent
+		content " "
+		height 0
+		width 0
+		position absolute
+		pointer-events none
+		border-color rgba(color,  0)
+		border-bottom-color color
+		border-width 8px
+		margin-left -8px
+
+// ===================================
+.no-scroll
+	position fixed
+	overflow hidden
+	width 100%
+
+// ====================================
+.hide
+	display none !important
+
+//====================================
+
+::-webkit-input-placeholder {
+   color: $color-placeholder;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: $color-placeholder;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: $color-placeholder;  
+}
+
+:-ms-input-placeholder {  
+   color: $color-placeholder;  
+}
+

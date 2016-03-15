@@ -1,0 +1,463 @@
+.v-suggestion
+	margin 0
+	position absolute
+	width 100%
+	padding-left 0
+	list-style none
+	background-color white
+	z-index 9
+	border none
+	left 0
+	min-width auto
+	min-width initial
+	border 1px solid $color-line-border-gray
+	.b-overlay
+		opacity 0
+		z-index -1
+
+	&:before, &:after
+		display none
+
+	.item
+		cursor pointer
+		z-index 3
+		padding 8px 10px
+		text-align left
+
+		&:hover
+			background-color $button-bgcolor
+			color white
+
+.v-championship-overview
+	.table-overview
+		display block
+		gs("fluid", 3, (100 / 3) %, 0%)
+
+		tbody
+			col(1)
+
+.v-drivers-event-list
+	text-align center
+	margin-bottom 30px
+
+	.table-summary
+		gs("fluid", 2, (100 / 2) %, 0%)
+		tbody
+			col(1)
+
+	.item
+		gs("fluid", 12, (100 / 12) %, 0%)
+		&.active
+			event-item-active()
+
+		.item-title
+			event-item-title()
+
+		.is-backgroud-gray
+			background-color $bgcolor-title-gray
+
+		.is-backgroud-white
+			background-color $color-white
+
+		.event-row
+			gs("fluid", 12, (100 / 12) %, 0%)
+			border-left 1px solid $color-line-border-gray
+			.phone &
+				border none
+
+			.phone &
+				border-left none
+
+		.event-col
+			col(3)
+			background-color $bgcolor-title-gray
+			.tablet &, .desktop &
+				.b-table
+					th, td
+						> *
+							white-space nowrap
+
+		.event-col-large
+			col(9)
+			background-color $color-white
+			border-left 1px solid $color-line-border-gray
+			.phone &
+				border none
+
+			.phone &
+				border-left none
+
+		.item-body
+			border none
+			border-bottom 1px solid #c1c1c1
+
+.v-drivers-event-item
+	> .item
+		.item-title
+			text-align center
+	.b-table
+		width 100%
+
+		thead
+			background-color $bgcolor-title-gray
+			th
+				background-color $bgcolor-title-gray
+
+		th, td
+			padding-left 10px
+			padding-right 10px
+
+		tr:first-child
+			td, th
+				padding-top 10px
+				.tablet &
+					padding-top 9px
+
+	.table-result
+		tr:first-child
+			background-color $bgcolor-title-gray
+			td, th
+				background-color $bgcolor-title-gray
+				height 42px
+				min-height 42px
+				max-height 42px
+				padding-top 19px
+				font-size 15px
+
+		tr
+			gs("fluid", 4, (100%/4), 0)
+			td, th
+				col(1)
+				min-height 36px
+			td:first-child, th:first-child
+				color $text-gray
+
+	.table-summary
+		tbody
+			width 50%
+
+	.table-total
+		border-top 1px solid $color-line-border-gray
+		border-bottom 1px solid $color-line-border-gray
+		margin-top 42px
+		tbody
+			tr
+				th,td
+					min-height 36px
+
+.v-championship-statistic
+	.title
+		font-family $font-body
+		font-weight bold
+		text-align center
+
+		&.is-title-driver-detail
+			font-size 25px
+			margin-bottom 30px
+			text-transform uppercase
+			.phone &
+				margin-bottom 0
+
+.v-drivers-previewcard
+	border-radius 10px
+	margin 12.5px
+	position relative
+	box-shadow 0 0 1px 1px rgba(black, 0.1), 0 0 4px 3px rgba(black, 0.06)
+	&.is-new
+		.photo:after
+			content ""
+			position absolute
+			width 75px
+			height 75px
+			top -12px
+			right -12px
+			background url("../img/is_news_board.png") no-repeat
+			background-size 100% 100%
+
+	.url
+		text-decoration none
+
+	.flag-image
+		absolute 10px false false 10px
+		width 30px
+		height 20px
+
+	.name
+		position relative
+		background-color white
+		color black
+		text-align center
+		text-transform uppercase
+		font-size 14px
+		line-height 16px
+		height 50px
+		font-family $font-headline
+	.name, .team
+		> div
+			position absolute
+			top 50%
+			width 100%
+			transform translate3d(0, -50%, 0)
+			padding 3px 10px 0 10px
+
+	.team
+		position relative
+		background-color #3f4851
+		color white
+		text-align center
+		text-transform uppercase
+		border-radius 0 0 10px 10px
+		font-size 10px
+		height 45px
+		font-family $font-headline
+
+	.photo
+		width 100%
+		ratio-box(1 / 1)
+		border-radius 10px 10px 0 0
+		img
+			position absolute
+			top 0
+			width 100%
+			min-height 100%
+
+.v-drivers-carousel
+	> .actions
+		text-align center
+
+	.no-result
+		text-align center
+		color $text-gray
+
+	.circle-list
+		display none
+	.control-container
+		position absolute
+		top 50%
+		bottom auto
+
+		.prev, .next
+			height 40px
+			width 40px
+			position absolute
+			transform translate(0, -50%)
+
+		.next
+			right -40px
+		.prev
+			left -40px
+
+.v-drivers-list
+	.filters
+		position relative
+		clear both
+		margin 0 auto
+		width 84%
+
+		&.b-accordion
+			.item-title
+				border none
+				margin-bottom 10px
+				.btn
+					pointer-events none
+					display block
+					margin 0
+			.item-body
+				border none
+
+		.v-filter
+			display inline-block
+			position relative
+			height 39px
+			width 29%
+			vertical-align top
+			& + .v-filter
+				margin-left 1%
+				min-width 140px
+
+		label.v-filter
+			width 40%
+			min-width 150px
+			input
+				width 100%
+				-webkit-appearance none
+				-moz-appearance none
+				border-radius 0
+
+		.b-dropdown, input
+			border 1px solid #b7b7b7
+		.b-dropdown
+			&:before
+				top 6px
+				width 26px
+				height 26px
+		.b-button
+			.button
+				padding 9px
+		.button-list
+			.b-button
+				.button
+					padding 8px 9px
+
+		.v-filter--alphabet
+			margin 10px
+			padding-top 20px
+			display block
+			width auto
+	.actions
+		text-align center
+	.list
+		gs("fluid", 6, (100 / 6) %, 0%)
+		> .wrapper
+			col(1)
+
+.desktop
+	.v-drivers-carousel
+		padding 0 10px
+
+.tablet
+	.v-drivers-carousel
+		margin-left -10px
+		margin-right -10px
+		.control-container
+			display none
+
+	.v-drivers-list
+		.list
+			gs("fluid", 3, (100 / 3) %, 0%)
+			> .wrapper
+				col(1)
+		.filters
+			.b-button
+				.button
+					text-overflow ellipsis
+					overflow hidden
+					white-space nowrap
+						overflow hidden
+
+.desktop
+.tablet
+	.v-drivers-event-item
+		.table-summary
+			border-bottom: 1px solid #c1c1c1
+
+.phone
+	.v-drivers-previewcard
+		.name
+			font-size 12px
+		.name, .team
+			> div
+				padding 0 5px
+				overflow hidden
+
+	.v-drivers-list
+		.filters
+			.actions
+				padding 0 12.5px
+
+	.v-drivers-carousel
+		.control-container
+			display none
+
+	.v-drivers-list
+		.list
+			gs("fluid", 2, (100 / 2) %, 0%)
+			> .wrapper
+				col(1)
+		.actions
+			padding 0 12.5px
+		.filters
+			width 100%
+			padding 0 12.5px
+			.item-title .b-button .button
+				padding 15px 9px
+			.v-filter
+				position relative
+				float none
+				clear both
+				width 100%
+				margin 0 0 10px 0
+				padding 0
+
+	.v-drivers-event-list
+		.item
+			.event-col,
+			.event-col-large
+				width 100%
+				clear left
+
+			.is-first-event-col
+				display none
+	.v-drivers-event-item
+		.table-summary
+			tbody
+				display block
+				width 100%
+
+				tr
+					display block
+
+					th
+						text-align right
+					td
+						text-align left
+
+		.table-total
+			margin-top 0
+			border none
+			tbody
+				display block
+				width 100%
+
+				tr
+					display block
+
+					th
+						text-align right
+					td
+						text-align left
+
+		.table-result
+			position relative
+			tbody
+				display block
+				width 100%
+
+				tr:first-child
+					td, th
+						height 32px
+						min-height 32px
+						max-height 32px
+						padding-top 9px
+
+				tr
+					display block
+					th, td
+						width 50%
+					th
+						text-align right
+					td
+						text-align center
+
+			.navigation
+				position absolute
+				top: 0
+				right 0
+				width 50%
+				z-index 9
+
+				.prev,
+				.next
+					display block
+					background url("../img/arrow_next_icon.png") 50% 50% no-repeat
+					position: absolute
+					width 40px
+					height 30px
+					right 10px
+					top 0
+					text-align left
+					text-indent -3000em
+
+					&.prev
+						transform rotate(-180deg)
+						left 10px

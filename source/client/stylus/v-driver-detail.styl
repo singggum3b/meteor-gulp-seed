@@ -1,0 +1,396 @@
+$compare-background-color = #f3f3f3
+$compare-border-color = #d4d4d4
+$compare-border-input-color = #b7b7b7
+$table-title-border-color = #c1c1c1
+
+.v-floating-nav
+	background-color rgba(black,0.5)
+	margin 0
+	display none
+
+	&.sticky
+		display block
+		z-index 9
+		position fixed
+		top 0
+		left 0
+		width 100%
+		transform translateZ(99px)
+
+	ul
+		margin 0
+		padding-left 0
+		text-align center
+		li
+			display inline-block
+			text-transform uppercase
+			&:hover
+				a
+					color #e30e3e
+			a
+				color white
+				text-decoration none
+				padding 10px
+				display block
+				.phone &
+					font-size 0.9em
+
+.v-cup
+	width 20px
+	height 20px
+	display inline-block
+	vertical-align middle
+	margin-top -4px
+	&.v-cup--gold
+		background-image url("../img/goldcup.png")
+		background-size contain
+	&.v-cup--silver
+		background-image url("../img/silvercup.png")
+		background-size contain
+	&.v-cup--copper
+		background-image url("../img/bronzecup.png")
+		background-size contain
+
+.v-drivers-event-list
+	.item
+		.item-title
+			border none
+			border-bottom 1px solid $table-title-border-color
+
+.v-driver-detail
+	cf()
+	display block
+	margin-top 30px
+
+	.v-drivers-finder
+		border none
+		position relative
+
+		.b-loading
+			min-height 75px
+			p
+				display none
+
+		.item-title,.item-body
+			border none
+		.item-body
+			position relative
+
+			.panel
+				position absolute
+				width 100%
+				background-color white
+				z-index 2
+				padding 20px
+				background $compare-background-color
+				border-bottom-left-radius 8px
+				border-bottom-right-radius 8px
+				border 1px solid $compare-border-color
+				border-top none
+
+				.v-filter
+					width auto
+					display block
+					&.b-button
+						margin-bottom 10px
+					&.b-dropdown
+						min-width auto
+						min-width initial
+					input
+						width 100%
+						border 1px solid $compare-border-input-color
+						padding 11px 9px 10px 9px
+				.v-suggestion-box
+					padding 0
+
+		.b-button
+			&.compare
+				width 100%
+				min-width auto
+				min-width initial
+				margin-top 20px
+
+				.button
+					background-color $button-bgcolor
+					font-size 17px
+					line-height 26px
+
+	.b-table
+		td, th
+			padding 9px 13px 9px 0
+			text-transform uppercase
+			font-weight bold
+			text-align left
+			font-size 15px
+		td
+			padding-right 0
+		.phone &
+			tr
+				max-width 60%
+				margin 0 auto
+				
+			td, th
+				text-align center
+
+		tr:first-child
+			td, th
+				padding-top 0
+
+		th
+			color $text-gray
+
+		td
+			color $text-black-driver-name
+
+	.v-driver-profile
+		gs("fluid", 12, (100 / 12) %, 0%)
+		clearfix()
+		overflow visible
+		border-bottom 1px solid $color-line-border-gray
+		padding-bottom 15px
+		margin-bottom 20px
+
+		.photo-wrapper
+			col(3)
+			padding 0 3%
+
+			.profile-photo
+				text-align center
+				margin-bottom 5px
+				.phone &
+					    margin-bottom 20px
+			.ratio-box-profile
+				ratio-box(4 / 6)
+
+				img
+					position relative
+
+			img
+				max-width 100%
+
+		.driver-profile-social
+			cf()
+			text-align center
+			margin-bottom 40px
+
+			.b-button
+				display inline-block
+
+			.button
+				margin 0 5px
+
+			.icon
+				width 25px
+
+	.profile-info-wrapper
+		col(6)
+
+		.tablet-profile
+			width 96%
+
+			table
+				width 100%
+			tr
+				display block
+				td, th
+					display inline-block
+			tr:last-child
+				th, td
+					display block
+					width 100%
+
+				th
+					margin-top 12px
+					padding-top 22px
+					border-top 1px solid $color-line-border-gray
+				td
+					font-size 13px
+					text-transform initial
+					font-weight normal
+
+	.v-driver-highlight
+		col(3)
+		overflow visible
+
+		.tilte
+			font-family 'Venera'
+			font-size 20px
+			font-weight bold
+			margin 20px 0
+			color $text-black-big
+
+		.table-highlight
+			width 100%
+			table
+				width 100%
+			th
+				width 55%
+				font-size 11px
+
+			td
+				width 45%
+				font-size 13px
+
+	.is-button-compare
+		white-space nowrap
+		width 100%
+		.button--text
+			background-color $button-bgcolor
+			color $color-white
+			font-family 'Venera'
+			font-size 13px
+			line-height 20px
+			font-weight normal
+			display inline-block
+			position relative
+			padding 17px 25px 13px 53px
+			width 100%
+
+			&:before
+				content ""
+				display block
+				background url("../img/compare_icon.png") 50% 50% no-repeat
+				position: absolute
+				width 32px
+				height 32px
+				left 10px
+				transform translateY(-50%)
+				top 50%
+
+.v-driver-detail,.v-driver-statistic
+	.table-title
+		table-title()
+	.b-table
+		tbody
+			tr:last-child
+				th,td
+					border none
+
+		th
+			font-weight normal
+
+		th,td
+			vertical-align middle
+			position relative
+			> *
+				vertical-align middle
+				margin 0
+			
+.v-driver-statistic
+	.v-drivers-event-list
+		.b-table
+			td
+				> *
+					text-overflow ellipsis
+					overflow hidden
+					white-space nowrap
+	.phone &
+		.v-drivers-event-list
+		.b-table
+			td
+				> *
+					word-wrap break-word;
+					white-space normal
+		
+.desktop
+	.v-driver-statistic
+		.b-table
+			th,td
+				padding 10px
+				vertical-align middle
+		.table-title
+			border-top 1px solid $table-title-border-color
+			border-bottom 1px solid $table-title-border-color
+
+.tablet
+	.v-driver-detail
+		.is-button-compare
+			white-space normal
+			.button--text
+				font-size 11px
+				line-height 15px
+				padding 13px 33px 10px 46px
+				&:before
+					width 25px
+					height 25px
+					background-size 100%
+	.v-driver-statistic
+		.table-title
+			border-top 1px solid $table-title-border-color
+			border-bottom 1px solid $table-title-border-color
+
+.phone
+	display block
+
+	.v-drivers-event-list
+		.item
+			&:first-child
+				.item-title
+					border-top none
+				&.active .item-title
+					border-top 1px solid $table-title-border-color
+			.v-drivers-event-item
+				.event-row:last-child
+					.b-table
+						tbody
+							tr:last-child
+								th,td
+									border-bottom none
+
+	.v-driver-detail
+
+		.is-button-compare
+			margin 30px 0
+
+		.v-driver-profile
+			.photo-wrapper,
+			.profile-info-wrapper,
+			.v-driver-highlight
+				float none
+				display block
+				width 100%
+				overflow visible
+
+			.v-driver-highlight
+				text-align center
+
+			.profile-info-wrapper
+				.tablet-profile
+					width 100%
+					&:last-child
+						max-width 100%
+
+					tr
+						text-align center
+						&:last-child
+							max-width 100%
+
+					tr:last-child th, tr:last-child td
+						display block
+						text-align center
+
+			.driver-profile-social
+				margin-bottom 18px
+				padding-bottom 22px
+				border-bottom 1px solid #dbdbdb
+
+		.table-highlight
+			margin-top 30px
+			table
+				width 100%
+			tr
+				display block
+				text-align center
+
+				td, th
+					display inline-block
+
+				th
+					text-align right
+				td
+					text-align left
+		.v-drivers-finder
+			max-width 285px
+			margin 0 auto
+			.panel
+				top -30px

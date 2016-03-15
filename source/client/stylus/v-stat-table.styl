@@ -1,0 +1,22 @@
+.v-stat-table
+	table
+		width 100%
+		text-align center
+	thead
+		border-bottom 3px solid $color-primary
+		line-height 40px
+		color $color-primary
+	td
+		border 2px dotted $color-neutral
+		line-height 30px
+		color $text-black
+		&:nth-child(3),  &:nth-child(4)
+			font-weight bold
+
+		&.percent
+			.bar
+				display block
+				background-color $color-primary
+				color white
+				font-size 12px
+				font-weight bold

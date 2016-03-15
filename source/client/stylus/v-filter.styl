@@ -1,0 +1,20 @@
+.v-filter
+	&.v-filter--alphabet
+		font-family $font-headline
+		color $text-black-driver-name
+		font-weight bold
+		font-size 15px
+		text-align center
+		margin 25px
+		display block
+		white-space nowrap
+
+		.item
+			cursor pointer
+			margin 0 2.7px
+			&:first-child:after
+				content " -"
+			&.active
+				color $button-bgcolor
+		span.item:first-child
+			margin-right 1px

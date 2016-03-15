@@ -1,0 +1,69 @@
+.b-button
+	position relative
+	cursor pointer
+	display inline-block
+
+	&.disabled
+		cursor not-allowed
+		opacity 0.5
+		.button
+			cursor not-allowed
+
+	.button
+		cursor pointer
+		position relative
+		z-index 0
+		//transform translateZ(99px)
+		//&:hover,&.is-hover
+			//transform translateZ(99px)
+
+		&.button--image
+			height 100%
+			display block
+			.icon-wrapper
+				height 100%
+				width 100%
+
+			img
+				display block
+				width 100%
+				height 100%
+
+	.b-overlay
+		opacity 0
+		z-index 1
+
+	.button-list
+		position absolute
+		z-index 1
+
+	&.b-dropdown
+		position relative
+		display inline-block
+		.title
+			font-family $font-body
+			font-weight normal
+			word-wrap break-word
+		.button-list
+			z-index 99
+			background-color white
+			transform translateZ(99px)
+			max-height 270px
+			overflow-y auto
+			.button
+				padding 8px 9px
+				&:hover
+					background-color $button-bgcolor
+					color white
+				.title
+					word-wrap break-word
+					line-height 1.3em
+					
+			.v-news &
+				overflow-y hidden
+
+.phone
+	.b-button
+		&.b-dropdown
+			.button-list
+				max-height 380px

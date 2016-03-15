@@ -1,0 +1,126 @@
+.v-mini-panel
+	submit-button()
+		position absolute
+		top 50%
+		right 20px
+		transform translateY(-50%)
+		.button
+			display block
+			background url('../img/btn-submit.png') no-repeat left top
+			mobile-size(50px, 50px)
+			text-indent -9999px
+			background-size contain
+			&:hover
+				background url('../img/btn-submit-hover.png') no-repeat left top
+				background-size contain
+
+	.animation-wrapper
+		&.active
+			.phone &
+				margin-top 60px
+			&:after
+				shadow-bg()
+	.content-wrapper
+		background white url('../img/bg-panel.png') no-repeat center
+		background-size cover
+		text-align center
+		padding 0.5px
+		.phone &
+			@media (orientation: portrait)
+				padding-left 10px
+				padding-right 10px
+		&:before
+			shadow-bg()
+		.title
+			mobile(40px, 45px)
+			margin 0 0 13px 0
+			padding 4px 0 0 0
+		.v-suggestion-box	
+			.v-suggestion
+				.item
+					text-align left
+					padding-left 15px
+			.phone &
+				padding-left 0
+				padding-right 0
+
+	.v-login
+		.v-login-authen
+			gs('fluid', 2, 50%, 0)
+			.phone &
+				@media (orientation: portrait)
+					.email, .password
+						width 100%
+					.email
+						margin-bottom 10px
+					.password
+						padding 0 10px
+			.email, .password
+				col(1)
+			.email
+				padding 0 10px
+				.b-field
+					&.b-field-text
+						input
+							padding-right 10px
+			.password
+				position relative
+				padding 0 10px 0 0
+				input
+					padding-right 40px
+		label
+			display block
+		input
+			width 100%
+			mobile-font(30px, 40px)
+			color #5a5b5d
+			border-radius 20px
+			background white
+			padding 9px 10px 7px 10px
+			font-weight normal
+			overflow hidden
+		.v-login-forgot
+			.v-button-field
+				position relative
+				padding 0 10px
+				margin 0 auto
+				.phone &
+					@media (orientation: landscape)
+						max-width 60%
+				.desktop &, .tablet &
+					max-width 60%
+			> .content
+				padding 0 0 40px 0
+
+		.b-button
+			&.login, &.send-password
+				submit-button()
+			&.forgot-password
+				float right
+				margin 15px 0
+				padding-right 10px
+				.title
+					font-family $font-body
+					font-weight normal
+					text-transform uppercase
+					mobile-font(30px, 37px)
+					color #5a5b5d
+					margin 0
+					padding 0
+		.b-field
+			&.b-field-text
+				input
+					border 1px solid #b7b7b7
+					padding-right 45px
+
+.v-alert
+	text-align center
+	margin 0 0 10px 0
+	font-size 0.9em
+	&.v-alert--error
+		color red
+
+.phone
+	.v-header
+		.v-mini-panel
+			max-width 100%

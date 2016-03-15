@@ -1,0 +1,55 @@
+.v-app
+	.v-no-result
+		text-align center
+		color $text-black-light
+		margin 20px 0
+
+	.b-loading
+		height 100%
+		color white
+
+	.b-form
+		max-width 500px
+		margin-left auto
+		margin-right auto
+		box-shadow 1px 1px 5px 1px rgba(black,0.2)
+		border 1px solid rgba(black,0.2)
+		padding 20px 10px
+		position relative
+
+		.actions.center
+			text-align center
+			.b-button
+				margin-top 0
+
+		.forgot-pwd-link
+			float left
+			padding 10px
+			font-size 0.85em
+			a
+				color $text-gray
+
+		.b-field
+			display block
+			> span
+				font-weight bold
+				color rgba(black,0.63)
+				margin 0 0 5px 0
+				display block
+				padding-right 0
+			& + .b-field
+				margin-top 20px
+			&.b-field-file
+				input
+					width 100%
+
+		fieldset
+			border none
+			padding 10px
+
+		.actions
+			padding 10px
+			text-align right
+			.b-button
+				min-width auto
+				min-width initial

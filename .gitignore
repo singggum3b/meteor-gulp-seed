@@ -1,0 +1,10 @@
+/platform/external-build.json
+/source/client/.css
+/platform/packages/externalbuild/.npm
+/platform/.build
+/build
+/platform/.external-build
+# Created by .ignore support plugin (hsz.mobi)
+node_modules
+.idea
+npm-debug.log

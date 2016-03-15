@@ -1,0 +1,205 @@
+.v-mini-panel
+	position relative
+	> .b-overlay
+		z-index 2
+		opacity 0
+	> .animation-wrapper
+		position absolute
+		width 100%
+		z-index 3
+
+.v-header
+	position relative
+	margin-top 114px
+	height 64px
+	padding 0 20px
+
+	.v-mini-panel
+		max-width 550px
+		margin-left auto
+		margin-right auto
+
+	.logo-img
+		position absolute
+		top -113px
+		right 10px
+		height 113px
+		a
+			display inline-block
+			text-indent -9999px
+			position relative
+			top 50%
+			transform translateY(-50%)
+		.f4logo
+			background url("../img/header_f4logo.png") no-repeat
+			width 171px
+			height 62px
+			margin 0 20px 0 0
+		.fialogo
+			background url("../img/header_fialogo.png") no-repeat
+			width 91px
+			height 64px
+
+	.menu
+		text-align center
+		font-weight bold
+
+		&:before
+			content ""
+			background url("../img/header_shadow.png") no-repeat center 0
+			position absolute
+			bottom -14px
+			left 0
+			right 0
+			height 14px
+
+		.text-menu
+			text-transform uppercase
+			color $text-black
+			line-height 64px
+			display inline-block
+
+			.item
+				&.active
+					color $button-bgcolor
+
+			a
+				padding 0 15px
+				color $text-black
+				font-size 19px
+				text-decoration none
+
+		.account
+			margin-left 12px
+			&.authenticated
+				&.active
+					.button-list
+						background transparent
+						border 1px solid $color-line-border-profile
+						margin 14px 0 0 -81px
+						border-top none
+						text-align center
+						&:before
+							content ""
+							background url("../img/header_shadow.png") no-repeat center 0
+							position absolute
+							bottom -9px
+							left 0
+							right 0
+							height 9px
+							background-size 160% 160%
+
+						.phone &
+							margin 0 0 0 -45px
+							border-top 1px solid $color-line-border-profile
+							background white
+							.b-button
+								padding 10px 20px
+						.b-button
+							display block
+							padding 10px 60px
+							border-bottom 1px solid $color-line-border-profile
+							background white
+							&:first-child
+								background transparent
+							&:last-child
+								border-bottom #b9b9b9
+						.button
+							.title
+								font-family $font-body
+								color #7e7f82
+								mobile-font(30px, 82px)
+								line-height 1.2em
+								white-space nowrap
+								text-transform uppercase
+				.button--image
+					img
+						border-radius 50%
+						border 2px solid #a2a3a4
+						mobile-size(92px, 92px)
+						opacity 1
+		.account,.search
+			position relative
+			top -5px
+		.account,.search,.menubread
+			margin-right 20px
+			display inline-block
+			vertical-align middle
+			position relative
+			.icon
+				opacity 0.75
+				width 25px
+				height 25px
+
+.desktop
+	.v-header
+		.header-inner
+			margin auto
+			position relative
+
+	.menu
+		max-width 1440px
+		margin auto
+
+.phone
+	.v-header
+		padding 0
+		.logo-img
+			top -121px
+			right 0
+			.fialogo
+				width 52px
+				height 37px
+				background-size 100%
+				top 32px
+
+		&:before
+			background url("../img/header_logo.png") no-repeat
+			background-size 100% 100%
+			width 260px
+			height 61px
+			top -90px
+		.menu
+			text-align right
+			&:before
+				background none
+			.account,.search
+				margin-top 14px
+
+			.menubread
+				position static
+				margin-right 0
+
+				.title
+					font-family $font-body
+					font-weight bold
+					text-transform uppercase
+
+				.b-button
+					display block
+					.button
+						display block
+
+					&:hover
+						background-color $button-bgcolor
+						a
+							color white
+				a
+					display block
+					color $text-black
+					text-decoration none
+
+				.button-list
+					right 0
+					left 0
+					background-color white
+					padding 10px
+					margin 0 -10px
+					border 1px solid gainsboro
+					line-height 40px
+					box-shadow 0 0 3px 1px rgba(black,0.3)
+					text-align center
+					.b-button.active a
+						color $button-bgcolor
+					.b-button.active:hover a
+						color $color-white
